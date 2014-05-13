@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd src
+find patterns -iname "*.c++" -not -iname ".*" | while read file
+do
+    echo "SOURCES += $file"
+done

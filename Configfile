@@ -5,5 +5,13 @@ COMPILEOPTS += -Werror
 COMPILEOPTS += -pedantic
 COMPILEOPTS += -std=c++0x
 
+LANGUAGES   += c++
+COMPILEOPTS += -Isrc
+
 BINARIES += chisel-torture
-SOURCES  += main.c++
+SOURCES  += torture.c++
+CONFIG   += auto_patterns
+
+BINARIES += chisel-patterns
+SOURCES  += patterns.c++
+CONFIG   += auto_patterns
