@@ -22,6 +22,10 @@
 #ifndef LIBCGRAPH__NODE_HXX
 #define LIBCGRAPH__NODE_HXX
 
-
+namespace libcgraph {
+    /* Holds a single circuit node. */
+    class node {
+    };
+}
 
 #endif

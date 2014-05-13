@@ -22,7 +22,10 @@
 #ifndef LIBCGRAPH__PATTERN_HXX
 #define LIBCGRAPH__PATTERN_HXX
 
+#include <memory>
 #include <string>
+#include <vector>
+#include "node.h++"
 
 namespace libcgraph {
     /* This class is sub-classed by all circuit patterns, which are
@@ -31,6 +34,13 @@ namespace libcgraph {
      * which is then run through chisel.  Patterns must be able to
      * produce some output given their inputs, which means  */
     class pattern {
+        typedef std::shared_ptr<node> node_ptr;
+
+    protected:
+        /* These specify the inputs and outputs from this particular
+         * pattern. */
+        std::vector<node_ptr> _inputs;
+        std::vector<node_ptr> _outputs;
     };
 }
 

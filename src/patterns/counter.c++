@@ -24,6 +24,13 @@
 #include <libcgraph/pattern_store.h++>
 
 class counter: public libcgraph::pattern {
+private:
+
+public:
+    counter(void)
+        {
+            
+        }
 };
 
 class counter_factory: public libcgraph::pattern_factory {
