@@ -19,25 +19,17 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#include <libcgraph/pattern_store.h++>
+#ifndef FORMAT__FLO_HXX
+#define FORMAT__FLO_HXX
+
 #include "format.h++"
-#include "format_flo.h++"
 
-int main(int argc __attribute__((unused)),
-         const char **argv __attribute__((unused)))
-{
-    /* FIXME: There should be some sort of argument parsing to
-     * determine when a statement switches. */
-    std::shared_ptr<format> format = NULL;
-    format = std::make_shared<format_flo>();
+class format_flo: public format {
+    typedef std::shared_ptr<libcgraph::node> node_ptr;
+    typedef std::shared_ptr<libcgraph::pattern> pattern_ptr;
 
-    /* Selects the first pattern for building. */
-    auto factory = libcgraph::pattern_store::list()[0];
-    auto pattern = factory->create();
+public:
+    void write(FILE *f, const node_ptr& node);
+};
 
-    /* Now that we've got the super-pattern, just go ahead and write
-     * it out. */
-    format->write(stdout, pattern);
-
-    return 0;
-}
+#endif

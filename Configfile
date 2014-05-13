@@ -8,10 +8,21 @@ COMPILEOPTS += -std=c++0x
 LANGUAGES   += c++
 COMPILEOPTS += -Isrc
 
+# A Chisel (and Flo) torture tester.  This mixes together different
+# Chisel patterns and produces a large Chisel graph.
 BINARIES += chisel-torture
 SOURCES  += torture.c++
 CONFIG   += auto_patterns
 
-BINARIES += chisel-patterns
-SOURCES  += patterns.c++
-CONFIG   += auto_patterns
+# Allows for examination of single patterns.  There's two versions of
+# this: one that outputs to Flo files and out that outputs to Chisel
+# files.
+BINARIES    += chisel-patterns
+SOURCES     += patterns.c++
+COMPILEOPTS += -DCHISEL
+CONFIG      += auto_patterns
+
+BINARIES    += flo-patterns
+SOURCES     += patterns.c++
+COMPILEOPTS += -DFLO
+CONFIG      += auto_patterns

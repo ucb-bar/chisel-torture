@@ -43,3 +43,12 @@ const std::vector<pattern_factory_ptr>& pattern_store::list(void)
 {
     return _factories;
 }
+
+const pattern_factory_ptr pattern_store::lookup(const std::string& name)
+{
+    auto l = _name_map.find(name);
+    if (l == _name_map.end())
+        return NULL;
+
+    return l->second;
+}

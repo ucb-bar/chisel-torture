@@ -29,7 +29,13 @@ private:
 public:
     counter(void)
         {
-            
+            auto reg = std::make_shared<libcgraph::node>("reg");
+            auto reg_rd = std::make_shared<libcgraph::node>(reg, "regrd");
+            auto one = std::make_shared<libcgraph::node>("1");
+            auto sum = std::make_shared<libcgraph::node>(reg_rd, one, "+");
+            auto reg_wr = std::make_shared<libcgraph::node>(reg, sum, "regwr");
+
+            _compute = {reg, reg_rd, one, sum, reg_wr};
         }
 };
 
@@ -44,6 +50,11 @@ class counter_factory: public libcgraph::pattern_factory {
     const pattern_ptr create(void) const
         {
             return std::make_shared<counter>();
+        }
+
+    std::vector<std::string> examples(void) const
+        {
+            return {"32", "64"};
         }
 };
 

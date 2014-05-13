@@ -41,6 +41,15 @@ namespace libcgraph {
          * pattern. */
         std::vector<node_ptr> _inputs;
         std::vector<node_ptr> _outputs;
+
+        /* Here we have a list of all the nodes required to compute
+         * the output from the inputs. */
+        std::vector<node_ptr> _compute;
+
+    public:
+        /* Lists all the nodes required to compute a particular
+         * pattern. */
+        const std::vector<node_ptr>& compute(void) const { return _compute; }
     };
 }
 

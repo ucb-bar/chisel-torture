@@ -47,6 +47,10 @@ namespace libcgraph {
          * parameters, which is probably not the smartest of
          * ideas... */
         virtual const pattern_ptr create(const std::string& params) const;
+
+        /* Lists some examples of how to instantiate a particular
+         * pattern. */
+        virtual std::vector<std::string> examples(void) const = 0;
     };
 }
 

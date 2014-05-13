@@ -47,6 +47,9 @@ namespace libcgraph {
         /* Lists all the pattern factories currently known to the
          * system. */
         static const std::vector<pattern_factory_ptr>& list(void);
+
+        /* Looks up a pattern by name in the list. */
+        static const pattern_factory_ptr lookup(const std::string& name);
     };
 }
 
