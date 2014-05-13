@@ -1,0 +1,9 @@
+LANGUAGES   += c++
+COMPILEOPTS += -Wall
+COMPILEOPTS += -Wextra
+COMPILEOPTS += -Werror
+COMPILEOPTS += -pedantic
+COMPILEOPTS += -std=c++0x
+
+BINARIES += chisel-torture
+SOURCES  += main.c++
