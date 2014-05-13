@@ -19,25 +19,13 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LIBCGRAPH__NODE_HXX
-#define LIBCGRAPH__NODE_HXX
-
-#include <libflo/node.h++>
-#include <memory>
-#include <string>
-#include <vector>
+#ifndef LIBCGRAPH__REG_HXX
+#define LIBCGRAPH__REG_HXX
 
 namespace libcgraph {
-    /* Holds a single circuit node. */
-    class node: public libflo::node {
-    public:
-        /* Generates a new node with a unique name. */
-        node(void);
-
-        /* Generates a new node that is a constant, with the given
-         * value. */
-        node(size_t value);
-    };
+    /* Creates a new register, returning a pointer to the operation
+     * that cooresponds to that register. */
+    std::shared_ptr<operation> reg(size_t width);
 }
 
 #endif

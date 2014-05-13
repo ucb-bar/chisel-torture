@@ -22,14 +22,38 @@
 #ifndef LIBCGRAPH__OPERATION_HXX
 #define LIBCGRAPH__OPERATION_HXX
 
+#include <libflo/opcode.h++>
 #include <libflo/operation.h++>
 #include <memory>
 #include <string>
 #include <vector>
+#include "node.h++"
 
 namespace libcgraph {
     /* Holds an operation, which can operate on nodes. */
     class operation: public libflo::operation<node> {
+        typedef std::shared_ptr<operation> op_ptr;
+
+    public:
+        operation(const std::shared_ptr<node>& dest,
+                  const libflo::unknown<size_t>& width,
+                  const libflo::opcode& op,
+                  const std::vector<std::shared_ptr<node>>& s)
+            : libflo::operation<node>(dest, width, op, s)
+            {
+            }
+
+    public:
+        /* These operators allow us to more easily deal with computing
+         * nodes. */
+        friend op_ptr operator+(const op_ptr& a, const op_ptr& b);
+        friend op_ptr operator+(const op_ptr& a, size_t b);
+        friend op_ptr operator+(size_t a, const op_ptr& b);
+
+        /* Updates a register, which itself is an operation (it
+         * requires a mov).  Note that this is an error for anything
+         * that's not a register. */
+        op_ptr update(const op_ptr& val);
     };
 }
 

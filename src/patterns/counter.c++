@@ -22,6 +22,7 @@
 #include <libcgraph/pattern.h++>
 #include <libcgraph/pattern_factory.h++>
 #include <libcgraph/pattern_store.h++>
+#include <libcgraph/reg.h++>
 
 class counter: public libcgraph::pattern {
 private:
@@ -29,15 +30,11 @@ private:
 public:
     counter(void)
         {
-#if 0
-            auto reg = std::make_shared<libcgraph::node>("reg");
-            auto reg_rd = std::make_shared<libcgraph::node>(reg, "regrd");
-            auto one = std::make_shared<libcgraph::node>("1");
-            auto sum = std::make_shared<libcgraph::node>(reg_rd, one, "+");
-            auto reg_wr = std::make_shared<libcgraph::node>(reg, sum, "regwr");
+            auto r = libcgraph::reg(64);
+            auto sum = r + 1;
+            auto up = r->update(sum);
 
-            _compute = {reg, reg_rd, one, sum, reg_wr};
-#endif
+            _compute = {r, sum, up};
         }
 };
 

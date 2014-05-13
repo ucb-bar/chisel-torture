@@ -19,25 +19,21 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LIBCGRAPH__NODE_HXX
-#define LIBCGRAPH__NODE_HXX
+#include "operation.h++"
+#include "node.h++"
+#include "reg.h++"
 
-#include <libflo/node.h++>
-#include <memory>
-#include <string>
-#include <vector>
+std::shared_ptr<libcgraph::operation> libcgraph::reg(size_t width)
+{
+    auto regout = std::make_shared<libcgraph::node>();
+    auto regin = std::make_shared<libcgraph::node>();
 
-namespace libcgraph {
-    /* Holds a single circuit node. */
-    class node: public libflo::node {
-    public:
-        /* Generates a new node with a unique name. */
-        node(void);
+    auto c1 = std::make_shared<libcgraph::node>(1);
 
-        /* Generates a new node that is a constant, with the given
-         * value. */
-        node(size_t value);
-    };
+    return std::make_shared<libcgraph::operation>(
+        regout,
+        libflo::unknown<size_t>(width),
+        libflo::opcode::REG,
+        std::vector<std::shared_ptr<libcgraph::node>>({c1, regin})
+        );
 }
-
-#endif

@@ -21,3 +21,33 @@
 
 #include "node.h++"
 using namespace libcgraph;
+
+static std::string unique_name(void);
+
+node::node(void)
+    : libflo::node(unique_name())
+{
+}
+
+node::node(size_t value)
+    : libflo::node(std::to_string(value),
+                   libflo::unknown<size_t>(),
+                   libflo::unknown<size_t>(),
+                   false,
+                   true,
+                   libflo::unknown<size_t>(),
+                   libflo::unknown<std::string>()
+        )
+{
+}
+
+std::string unique_name(void)
+{
+    static unsigned long index = 0;
+
+    char buffer[1024];
+    snprintf(buffer, 1024, "Torture%lu", index);
+    index++;
+
+    return buffer;
+}
