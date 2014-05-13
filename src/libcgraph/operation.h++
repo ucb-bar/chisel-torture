@@ -19,14 +19,18 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FORMAT__CHISEL_HXX
-#define FORMAT__CHISEL_HXX
+#ifndef LIBCGRAPH__OPERATION_HXX
+#define LIBCGRAPH__OPERATION_HXX
 
-#include "format.h++"
+#include <libflo/operation.h++>
+#include <memory>
+#include <string>
+#include <vector>
 
-class format_chisel: public format {
-public:
-    void write(FILE *f, const op_ptr& op);
-};
+namespace libcgraph {
+    /* Holds an operation, which can operate on nodes. */
+    class operation: public libflo::operation<node> {
+    };
+}
 
 #endif

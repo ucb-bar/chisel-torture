@@ -26,6 +26,7 @@
 #include <string>
 #include <vector>
 #include "node.h++"
+#include "operation.h++"
 
 namespace libcgraph {
     /* This class is sub-classed by all circuit patterns, which are
@@ -35,6 +36,7 @@ namespace libcgraph {
      * produce some output given their inputs, which means  */
     class pattern {
         typedef std::shared_ptr<node> node_ptr;
+        typedef std::shared_ptr<operation> op_ptr;
 
     protected:
         /* These specify the inputs and outputs from this particular
@@ -44,12 +46,12 @@ namespace libcgraph {
 
         /* Here we have a list of all the nodes required to compute
          * the output from the inputs. */
-        std::vector<node_ptr> _compute;
+        std::vector<op_ptr> _compute;
 
     public:
         /* Lists all the nodes required to compute a particular
          * pattern. */
-        const std::vector<node_ptr>& compute(void) const { return _compute; }
+        const std::vector<op_ptr>& compute(void) const { return _compute; }
     };
 }
 

@@ -21,7 +21,7 @@
 
 #include "format_chisel.h++"
 
-void format_chisel::write(FILE *f, const node_ptr& node)
+void format_chisel::write(FILE *f, const op_ptr& op)
 {
-    fprintf(f, "node: '%s'\n", node->op().c_str());
+    op->writeln(f);
 }

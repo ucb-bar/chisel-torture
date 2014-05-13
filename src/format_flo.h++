@@ -25,11 +25,8 @@
 #include "format.h++"
 
 class format_flo: public format {
-    typedef std::shared_ptr<libcgraph::node> node_ptr;
-    typedef std::shared_ptr<libcgraph::pattern> pattern_ptr;
-
 public:
-    void write(FILE *f, const node_ptr& node);
+    void write(FILE *f, const op_ptr& node);
 };
 
 #endif

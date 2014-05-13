@@ -29,6 +29,7 @@ private:
 public:
     counter(void)
         {
+#if 0
             auto reg = std::make_shared<libcgraph::node>("reg");
             auto reg_rd = std::make_shared<libcgraph::node>(reg, "regrd");
             auto one = std::make_shared<libcgraph::node>("1");
@@ -36,6 +37,7 @@ public:
             auto reg_wr = std::make_shared<libcgraph::node>(reg, sum, "regwr");
 
             _compute = {reg, reg_rd, one, sum, reg_wr};
+#endif
         }
 };
 

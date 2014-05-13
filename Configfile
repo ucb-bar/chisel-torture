@@ -5,8 +5,16 @@ COMPILEOPTS += -Werror
 COMPILEOPTS += -pedantic
 COMPILEOPTS += -std=c++0x
 
+# This is the only way I know how to make C++ use internal libraries,
+# unfortunately...
 LANGUAGES   += c++
 COMPILEOPTS += -Isrc
+
+# Everything here actually depends on libflo, as that's the graph
+# format we're using (even when outputing Chisel code).
+LANGUAGES   += c++
+COMPILEOPTS += `ppkg-config flo --cflags`
+LINKOPTS    += `ppkg-config flo --libs`
 
 # A Chisel (and Flo) torture tester.  This mixes together different
 # Chisel patterns and produces a large Chisel graph.

@@ -22,27 +22,14 @@
 #ifndef LIBCGRAPH__NODE_HXX
 #define LIBCGRAPH__NODE_HXX
 
+#include <libflo/node.h++>
 #include <memory>
 #include <string>
 #include <vector>
 
 namespace libcgraph {
     /* Holds a single circuit node. */
-    class node {
-        typedef std::shared_ptr<node> node_ptr;
-
-    private:
-        const std::string _op;
-        const std::vector<node_ptr> _inputs;
-
-    public:
-        node(std::string op);
-        node(node_ptr a, std::string op);
-        node(node_ptr a, node_ptr b, std::string op);
-
-    public:
-        /* Returns the operation associated with this node. */
-        const std::string& op(void) const { return _op; }
+    class node: public libflo::node {
     };
 }
 

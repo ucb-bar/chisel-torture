@@ -21,22 +21,3 @@
 
 #include "node.h++"
 using namespace libcgraph;
-
-
-node::node(std::string op)
-    : _op(op),
-      _inputs()
-{
-}
-
-node::node(node_ptr a, std::string op)
-    : _op(op),
-      _inputs({a})
-{
-}
-
-node::node(node_ptr a, node_ptr b, std::string op)
-    : _op(op),
-      _inputs({a, b})
-{
-}

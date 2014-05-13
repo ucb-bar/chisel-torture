@@ -23,15 +23,18 @@
 #define FORMAT__HXX
 
 #include <libcgraph/node.h++>
+#include <libcgraph/operation.h++>
 #include <libcgraph/pattern.h++>
 #include <stdio.h>
 
 class format {
+protected:
     typedef std::shared_ptr<libcgraph::node> node_ptr;
+    typedef std::shared_ptr<libcgraph::operation> op_ptr;
     typedef std::shared_ptr<libcgraph::pattern> pattern_ptr;
 
 public:
-    virtual void write(FILE *f, const node_ptr& node) = 0;
+    virtual void write(FILE *f, const op_ptr& op) = 0;
 
     virtual void write(FILE *f, const pattern_ptr& pattern);
 };
