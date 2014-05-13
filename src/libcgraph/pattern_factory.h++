@@ -22,16 +22,31 @@
 #ifndef LIBCGRAPH__PATTERN_FACTORY_HXX
 #define LIBCGRAPH__PATTERN_FACTORY_HXX
 
+#include <memory>
 #include <string>
 #include "pattern.h++"
 
 namespace libcgraph {
     /* This class is capable of generating patterns. */
     class pattern_factory {
+        typedef std::shared_ptr<pattern> pattern_ptr;
+
     public:
         /* Returns the name of this pattern.  Note that names have to
          * be unique everywhere in the system! */
         virtual const std::string name(void) const = 0;
+
+        /* Creates a new instance of this pattern using random values
+         * for all the parameters. */
+        virtual const pattern_ptr create(void) const = 0;
+
+        /* Creates a new instance of this pattern by parsing a string
+         * in order to set the parameters.  Note that the exact
+         * formatting of this string is entirely up to the subclass!
+         * The default implementation for this simply ignores the
+         * parameters, which is probably not the smartest of
+         * ideas... */
+        virtual const pattern_ptr create(const std::string& params) const;
     };
 }
 

@@ -19,30 +19,12 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#include <libcgraph/pattern.h++>
-#include <libcgraph/pattern_factory.h++>
-#include <libcgraph/pattern_store.h++>
+#include "pattern_factory.h++"
+using namespace libcgraph;
 
-class counter: public libcgraph::pattern {
-};
+typedef std::shared_ptr<pattern> pattern_ptr;
 
-class counter_factory: public libcgraph::pattern_factory {
-    typedef std::shared_ptr<libcgraph::pattern> pattern_ptr;
-
-    const std::string name(void) const
-        {
-            return "counter";
-        }
-
-    const pattern_ptr create(void) const
-        {
-            return std::make_shared<counter>();
-        }
-};
-
-static void cons(void) __attribute__((constructor));
-void cons(void)
+const pattern_ptr pattern_factory::create(const std::string& params __attribute__((unused))) const
 {
-    auto factory = std::make_shared<counter_factory>();
-    libcgraph::pattern_store::link(factory);
+    return create();
 }
