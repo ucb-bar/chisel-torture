@@ -18,9 +18,15 @@ LINKOPTS    += `ppkg-config flo --libs`
 
 # A Chisel (and Flo) torture tester.  This mixes together different
 # Chisel patterns and produces a large Chisel graph.
-BINARIES += chisel-torture
-SOURCES  += torture.c++
-CONFIG   += auto_patterns
+BINARIES    += chisel-torture
+SOURCES     += torture.c++
+COMPILEOPTS += -DCHISEL
+CONFIG      += auto_patterns
+
+BINARIES    += flo-torture
+SOURCES     += torture.c++
+COMPILEOPTS += -DFLO
+CONFIG      += auto_patterns
 
 # Allows for examination of single patterns.  There's two versions of
 # this: one that outputs to Flo files and out that outputs to Chisel

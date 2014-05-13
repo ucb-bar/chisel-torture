@@ -20,16 +20,25 @@
  */
 
 #include <libcgraph/pattern_store.h++>
-#include "format.h++"
+
+#ifdef FLO
 #include "format_flo.h++"
+#endif
+
+#ifdef CHISEL
+#include "format_chisel.h++"
+#endif
 
 int main(int argc __attribute__((unused)),
          const char **argv __attribute__((unused)))
 {
-    /* FIXME: There should be some sort of argument parsing to
-     * determine when a statement switches. */
-    std::shared_ptr<format> format = NULL;
-    format = std::make_shared<format_flo>();
+#if defined(FLO)
+    std::shared_ptr<format> format = std::make_shared<format_flo>();
+#elif defined(CHISEL)
+    std::shared_ptr<format> format = std::make_shared<format_chisel>();
+#else
+#error "Define an output format"
+#endif
 
     /* Selects the first pattern for building. */
     auto factory = libcgraph::pattern_store::list()[0];
