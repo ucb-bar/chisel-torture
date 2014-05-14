@@ -28,9 +28,9 @@ class counter: public libcgraph::pattern {
 private:
 
 public:
-    counter(void)
+    counter(size_t width)
         {
-            auto r = libcgraph::reg(64);
+            auto r = libcgraph::reg(width);
             auto sum = r + 1;
             auto up = r->update(sum);
 
@@ -49,7 +49,12 @@ class counter_factory: public libcgraph::pattern_factory {
 
     const pattern_ptr create(void) const
         {
-            return std::make_shared<counter>();
+            return std::make_shared<counter>(32);
+        }
+
+    const pattern_ptr create(const std::string& args) const
+        {
+            return std::make_shared<counter>(atoi(args.c_str()));
         }
 
     std::vector<std::string> examples(void) const
