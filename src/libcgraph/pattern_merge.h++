@@ -28,11 +28,16 @@ namespace libcgraph {
     /* Stores a special sort of pattern that actually serves to merge
      * other patterns together. */
     class pattern_merge: public pattern {
+        std::vector<std::shared_ptr<pattern>> _patterns;
+
     public:
         /* Adds a new pattern in parallel with the current pattern. */
         void parallel(const std::shared_ptr<pattern>& to_add);
+
+    public:
+        /* libcgraph::pattern virtual overrides */
+        void step(void);
     };
 }
 
 #endif
-

@@ -26,10 +26,15 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <gmpxx.h>
 
 namespace libcgraph {
     /* Holds a single circuit node. */
     class node: public libflo::node {
+    private:
+        ssize_t _changed_cycle;
+        mpz_class _value;
+
     public:
         /* Generates a new node with a unique name. */
         node(void);
@@ -40,6 +45,21 @@ namespace libcgraph {
 
         /* Generates a new explicitly-named node. */
         node(const std::string& name);
+
+    public:
+        /* Returns TRUE if this node changed on the given cycle. */
+        bool changed_on_cycle(ssize_t cycle) { return _changed_cycle == cycle; }
+
+        /* Returns a string that represents the current value of this
+         * node as a VCD string. */
+        std::string vcd_string(void) const;
+
+        /* Updates the value of this node, also updating the cycle it
+         * cooresponds to. */
+        void update(const mpz_class& value, ssize_t cycle);
+
+        /* Returns the value of this node. */
+        const mpz_class& value(void) const { return _value; }
     };
 }
 

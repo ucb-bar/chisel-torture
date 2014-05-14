@@ -109,7 +109,7 @@ void format::write(const pattern_ptr& pattern)
         write(op);
 }
 
-void format::vcd(const pattern_ptr& pattern, size_t cycles __attribute__((unused)))
+void format::vcd(const pattern_ptr& pattern, size_t cycles)
 {
     /* Create a flo object, which deals with infering widths and
      * such. */
@@ -143,6 +143,29 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles __attribute__((unused
                 io_name(pair.first).c_str(),
                 pair.second.c_str()
             );
+    }
+
+    /* Now go ahead and write the VCD body. */
+    for (size_t cycle = 0; cycle < cycles; ++cycle) {
+        fprintf(_vcd, "#%lu\n", cycle);
+
+        auto dump = [&](node_ptr n) -> void
+            {
+                if (n->changed_on_cycle(cycle) == false)
+                    return;
+
+                auto short_name = short_names[n];
+                fprintf(_vcd, "%s %s\n",
+                        short_name.c_str(),
+                        n->vcd_string().c_str()
+                    );
+            };
+        for (const auto& node: pattern->inputs())
+            dump(node);
+        for (const auto& node: pattern->outputs())
+            dump(node);
+
+        pattern->step();
     }
 }
 

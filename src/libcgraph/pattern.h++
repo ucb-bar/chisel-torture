@@ -54,6 +54,10 @@ namespace libcgraph {
         const std::vector<op_ptr>& compute(void) const { return _compute; }
         const std::vector<node_ptr>& inputs(void) const { return _inputs; }
         const std::vector<node_ptr>& outputs(void) const { return _outputs; }
+
+        /* Steps the circuit one cycle, updating all its inputs and
+         * outputs accordingly. */
+        virtual void step(void) = 0;
     };
 }
 

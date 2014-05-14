@@ -20,12 +20,15 @@
  */
 
 #include "node.h++"
+#include <sstream>
 using namespace libcgraph;
 
 static std::string unique_name(void);
 
 node::node(void)
-    : libflo::node(unique_name())
+    : libflo::node(unique_name()),
+      _changed_cycle(-1),
+      _value()
 {
 }
 
@@ -53,6 +56,14 @@ node::node(const std::string& name)
         )
 {
 }
+
+std::string node::vcd_string(void) const
+{
+    std::stringstream s;
+    s << _value;
+    return s.str();
+}
+
 std::string unique_name(void)
 {
     static unsigned long index = 0;
@@ -62,4 +73,18 @@ std::string unique_name(void)
     index++;
 
     return buffer;
+}
+
+void node::update(const mpz_class& value, ssize_t cycle)
+{
+    if (cycle <= _changed_cycle) {
+        fprintf(stderr, "Last changed on %ld, now %ld\n",
+                _changed_cycle,
+                cycle
+            );
+        abort();
+    }
+
+    _changed_cycle = cycle;
+    _value = value;
 }

@@ -23,19 +23,41 @@
 #include <libcgraph/pattern_factory.h++>
 #include <libcgraph/pattern_store.h++>
 #include <libcgraph/reg.h++>
+#include <gmpxx.h>
 
 class counter: public libcgraph::pattern {
 private:
+    size_t width;
+    mpz_class value;
+    mpz_class limit;
+    size_t cycle;
+    std::shared_ptr<libcgraph::operation> r;
 
 public:
-    counter(size_t width)
+    counter(size_t _width)
+        : width(_width),
+          value(0),
+          limit(mpz_class(1) << width),
+          cycle(0),
+          r(libcgraph::reg(width))
         {
-            auto r = libcgraph::reg(width);
             auto sum = r + 1;
             auto up = r->update(sum);
 
             _compute = {r, sum, up};
             _outputs = {r->d()};
+
+            r->d()->update(value, cycle);
+        }
+
+    void step(void)
+        {
+            value += 1;
+            if (value > limit)
+                value -= limit;
+
+            cycle += 1;
+            r->d()->update(value, cycle);
         }
 };
 
@@ -59,7 +81,7 @@ class counter_factory: public libcgraph::pattern_factory {
 
     std::vector<std::string> examples(void) const
         {
-            return {"32", "64"};
+            return {"4", "32", "64"};
         }
 };
 

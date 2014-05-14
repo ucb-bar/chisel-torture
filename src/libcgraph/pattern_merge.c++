@@ -24,10 +24,18 @@ using namespace libcgraph;
 
 void pattern_merge::parallel(const std::shared_ptr<pattern>& to_add)
 {
+    _patterns.push_back(to_add);
+
     for (const auto& in: to_add->inputs())
         _inputs.push_back(in);
     for (const auto& out: to_add->outputs())
         _outputs.push_back(out);
     for (const auto& op: to_add->compute())
         _compute.push_back(op);
+}
+
+void pattern_merge::step(void)
+{
+    for (const auto& pattern: _patterns)
+        pattern->step();
 }
