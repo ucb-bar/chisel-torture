@@ -49,7 +49,7 @@ op_ptr libcgraph::operator+(size_t a, const op_ptr& b)
         out,
         libflo::unknown<size_t>(),
         libflo::opcode::ADD,
-        std::vector<std::shared_ptr<node>>({a, b->d()})
+        std::vector<std::shared_ptr<node>>({ca, b->d()})
         );
 }
 
