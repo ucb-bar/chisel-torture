@@ -9,3 +9,8 @@
 Makefile*
 
 *~
+
+# These are output by torture
+/torture.flo
+/torture.vcd
+/torture.scala
