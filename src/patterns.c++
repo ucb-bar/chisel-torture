@@ -32,8 +32,12 @@
 
 int main(int argc, const char **argv)
 {
-    FILE *cir = fopen("circuit.flo", "w");
-    FILE *vcd = fopen("gold.vcd", "w");
+#if defined(FLO)
+    FILE *cir = fopen("torture.flo", "w");
+#elif defined(CHISEL)
+    FILE *cir = fopen("torture.scala", "w");
+#endif
+    FILE *vcd = fopen("torture.vcd", "w");
 
 #if defined(FLO)
     std::shared_ptr<format> format = std::make_shared<format_flo>(cir, vcd);
@@ -76,6 +80,7 @@ int main(int argc, const char **argv)
 
         auto pattern = factory->create(argv[3]);
         format->write(pattern);
+        format->vcd(pattern, 100);
     }
 
     return 0;

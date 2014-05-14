@@ -34,34 +34,10 @@ void format_flo::write( const op_ptr& op)
 
 void format_flo::input(const node_ptr& node)
 {
-    static unsigned long index = 0;
-    char in_name[1024];
-    snprintf(in_name, 1024, "Torture::io_in%lu", index++);
-
-    auto in = std::make_shared<libcgraph::node>(in_name);
-
-    auto op = std::make_shared<libcgraph::operation>(
-        node,
-        libflo::unknown<size_t>(),
-        libflo::opcode::IN,
-        std::vector<std::shared_ptr<libcgraph::node>>({in})
-        );
-    write(op);
+    write(io_op(node));
 }
 
 void format_flo::output(const node_ptr& node)
 {
-    static unsigned long index = 0;
-    char out_name[1024];
-    snprintf(out_name, 1024, "Torture::io_out%lu", index++);
-
-    auto out = std::make_shared<libcgraph::node>(out_name);
-
-    auto op = std::make_shared<libcgraph::operation>(
-        out,
-        libflo::unknown<size_t>(),
-        libflo::opcode::OUT,
-        std::vector<std::shared_ptr<libcgraph::node>>({node})
-        );
-    write(op);
+    write(io_op(node));
 }

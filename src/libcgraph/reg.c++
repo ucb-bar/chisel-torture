@@ -30,6 +30,9 @@ std::shared_ptr<libcgraph::operation> libcgraph::reg(size_t width)
 
     auto c1 = std::make_shared<libcgraph::node>(1);
 
+    regout->update_width(width);
+    regin->update_width(width);
+
     return std::make_shared<libcgraph::operation>(
         regout,
         libflo::unknown<size_t>(width),

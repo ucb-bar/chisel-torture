@@ -33,8 +33,12 @@
 int main(int argc __attribute__((unused)),
          const char **argv __attribute__((unused)))
 {
-    FILE *cir = fopen("circuit.flo", "w");
-    FILE *vcd = fopen("gold.vcd", "w");
+#if defined(FLO)
+    FILE *cir = fopen("torture.flo", "w");
+#elif defined(CHISEL)
+    FILE *cir = fopen("torture.scala", "w");
+#endif
+    FILE *vcd = fopen("torture.vcd", "w");
 
 #if defined(FLO)
     std::shared_ptr<format> format = std::make_shared<format_flo>(cir, vcd);
@@ -63,6 +67,7 @@ int main(int argc __attribute__((unused)),
     /* Now that we've got the super-pattern, just go ahead and write
      * it out. */
     format->write(merge);
+    format->vcd(merge, 100);
 
     return 0;
 }
