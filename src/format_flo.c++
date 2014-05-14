@@ -22,12 +22,17 @@
 #include "format_flo.h++"
 #include <libcgraph/operation.h++>
 
-void format_flo::write(FILE *f, const op_ptr& op)
+format_flo::format_flo(FILE *file)
+    : format(file)
 {
-    op->writeln(f);
 }
 
-void format_flo::input(FILE *f, const node_ptr& node)
+void format_flo::write( const op_ptr& op)
+{
+    op->writeln(_file);
+}
+
+void format_flo::input(const node_ptr& node)
 {
     static unsigned long index = 0;
     char in_name[1024];
@@ -41,10 +46,10 @@ void format_flo::input(FILE *f, const node_ptr& node)
         libflo::opcode::IN,
         std::vector<std::shared_ptr<libcgraph::node>>({in})
         );
-    write(f, op);
+    write(op);
 }
 
-void format_flo::output(FILE *f, const node_ptr& node)
+void format_flo::output(const node_ptr& node)
 {
     static unsigned long index = 0;
     char out_name[1024];
@@ -58,5 +63,5 @@ void format_flo::output(FILE *f, const node_ptr& node)
         libflo::opcode::OUT,
         std::vector<std::shared_ptr<libcgraph::node>>({node})
         );
-    write(f, op);
+    write(op);
 }

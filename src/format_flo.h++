@@ -26,9 +26,12 @@
 
 class format_flo: public format {
 public:
-    void write(FILE *f, const op_ptr& op);
-    void input(FILE *f, const node_ptr& node);
-    void output(FILE *f, const node_ptr& node);
+    format_flo(FILE *file);
+
+public:
+    void write(const op_ptr& op);
+    void input(const node_ptr& node);
+    void output(const node_ptr& node);
 };
 
 #endif

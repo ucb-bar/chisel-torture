@@ -33,9 +33,9 @@
 int main(int argc, const char **argv)
 {
 #if defined(FLO)
-    std::shared_ptr<format> format = std::make_shared<format_flo>();
+    std::shared_ptr<format> format = std::make_shared<format_flo>(stdout);
 #elif defined(CHISEL)
-    std::shared_ptr<format> format = std::make_shared<format_chisel>();
+    std::shared_ptr<format> format = std::make_shared<format_chisel>(stdout);
 #else
 #error "Define an output format"
 #endif
@@ -72,7 +72,7 @@ int main(int argc, const char **argv)
         }
 
         auto pattern = factory->create(argv[3]);
-        format->write(stdout, pattern);
+        format->write(pattern);
     }
 
     return 0;

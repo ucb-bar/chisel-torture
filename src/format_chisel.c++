@@ -20,3 +20,8 @@
  */
 
 #include "format_chisel.h++"
+
+format_chisel::format_chisel(FILE *file)
+    : format_flo(file)
+{
+}

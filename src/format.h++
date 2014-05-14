@@ -33,12 +33,21 @@ protected:
     typedef std::shared_ptr<libcgraph::operation> op_ptr;
     typedef std::shared_ptr<libcgraph::pattern> pattern_ptr;
 
-public:
-    virtual void write(FILE *f, const op_ptr& op) = 0;
-    virtual void input(FILE *f, const node_ptr& node) = 0;
-    virtual void output(FILE *f, const node_ptr& node) = 0;
+protected:
+    /* The file that we're going to output this circuit into. */
+    FILE *_file;
 
-    virtual void write(FILE *f, const pattern_ptr& pattern);
+public:
+    /* Creates a new output formatter with the given file as the
+     * target. */
+    format(FILE *file);
+
+public:
+    virtual void write(const op_ptr& op) = 0;
+    virtual void input(const node_ptr& node) = 0;
+    virtual void output(const node_ptr& node) = 0;
+
+    virtual void write(const pattern_ptr& pattern);
 };
 
 #endif

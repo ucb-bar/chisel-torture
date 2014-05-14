@@ -26,6 +26,7 @@
 
 class format_chisel: public format_flo {
 public:
+    format_chisel(FILE *file);
 };
 
 #endif

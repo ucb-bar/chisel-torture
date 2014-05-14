@@ -21,14 +21,19 @@
 
 #include "format.h++"
 
-void format::write(FILE *f, const pattern_ptr& pattern)
+format::format(FILE *file)
+    : _file(file)
+{
+}
+
+void format::write(const pattern_ptr& pattern)
 {
     for (const auto& node: pattern->inputs())
-        input(f, node);
+        input(node);
 
     for (const auto& node: pattern->outputs())
-        output(f, node);
+        output(node);
 
     for (const auto& op: pattern->compute())
-        write(f, op);
+        write(op);
 }

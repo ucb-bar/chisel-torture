@@ -34,9 +34,9 @@ int main(int argc __attribute__((unused)),
          const char **argv __attribute__((unused)))
 {
 #if defined(FLO)
-    std::shared_ptr<format> format = std::make_shared<format_flo>();
+    std::shared_ptr<format> format = std::make_shared<format_flo>(stdout);
 #elif defined(CHISEL)
-    std::shared_ptr<format> format = std::make_shared<format_chisel>();
+    std::shared_ptr<format> format = std::make_shared<format_chisel>(stdout);
 #else
 #error "Define an output format"
 #endif
@@ -59,7 +59,7 @@ int main(int argc __attribute__((unused)),
 
     /* Now that we've got the super-pattern, just go ahead and write
      * it out. */
-    format->write(stdout, merge);
+    format->write(merge);
 
     return 0;
 }
