@@ -20,8 +20,3 @@
  */
 
 #include "format_chisel.h++"
-
-void format_chisel::write(FILE *f, const op_ptr& op)
-{
-    op->writeln(f);
-}

@@ -22,11 +22,10 @@
 #ifndef FORMAT__CHISEL_HXX
 #define FORMAT__CHISEL_HXX
 
-#include "format.h++"
+#include "format_flo.h++"
 
-class format_chisel: public format {
+class format_chisel: public format_flo {
 public:
-    void write(FILE *f, const op_ptr& op);
 };
 
 #endif
