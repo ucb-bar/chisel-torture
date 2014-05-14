@@ -52,6 +52,8 @@ namespace libcgraph {
         /* Lists all the nodes required to compute a particular
          * pattern. */
         const std::vector<op_ptr>& compute(void) const { return _compute; }
+        const std::vector<node_ptr>& inputs(void) const { return _inputs; }
+        const std::vector<node_ptr>& outputs(void) const { return _outputs; }
     };
 }
 

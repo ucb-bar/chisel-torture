@@ -23,6 +23,12 @@
 
 void format::write(FILE *f, const pattern_ptr& pattern)
 {
-    for (const auto& node: pattern->compute())
-        write(f, node);
+    for (const auto& node: pattern->inputs())
+        input(f, node);
+
+    for (const auto& node: pattern->outputs())
+        output(f, node);
+
+    for (const auto& op: pattern->compute())
+        write(f, op);
 }

@@ -35,6 +35,8 @@ protected:
 
 public:
     virtual void write(FILE *f, const op_ptr& op) = 0;
+    virtual void input(FILE *f, const node_ptr& node) = 0;
+    virtual void output(FILE *f, const node_ptr& node) = 0;
 
     virtual void write(FILE *f, const pattern_ptr& pattern);
 };

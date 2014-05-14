@@ -37,6 +37,9 @@ namespace libcgraph {
         /* Generates a new node that is a constant, with the given
          * value. */
         node(size_t value);
+
+        /* Generates a new explicitly-named node. */
+        node(const std::string& name);
     };
 }
 

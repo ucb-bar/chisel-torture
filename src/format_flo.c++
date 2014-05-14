@@ -20,8 +20,43 @@
  */
 
 #include "format_flo.h++"
+#include <libcgraph/operation.h++>
 
 void format_flo::write(FILE *f, const op_ptr& op)
 {
     op->writeln(f);
+}
+
+void format_flo::input(FILE *f, const node_ptr& node)
+{
+    static unsigned long index = 0;
+    char in_name[1024];
+    snprintf(in_name, 1024, "Torture::io_in%lu", index++);
+
+    auto in = std::make_shared<libcgraph::node>(in_name);
+
+    auto op = std::make_shared<libcgraph::operation>(
+        node,
+        libflo::unknown<size_t>(),
+        libflo::opcode::IN,
+        std::vector<std::shared_ptr<libcgraph::node>>({in})
+        );
+    write(f, op);
+}
+
+void format_flo::output(FILE *f, const node_ptr& node)
+{
+    static unsigned long index = 0;
+    char out_name[1024];
+    snprintf(out_name, 1024, "Torture::io_out%lu", index++);
+
+    auto out = std::make_shared<libcgraph::node>(out_name);
+
+    auto op = std::make_shared<libcgraph::operation>(
+        out,
+        libflo::unknown<size_t>(),
+        libflo::opcode::OUT,
+        std::vector<std::shared_ptr<libcgraph::node>>({node})
+        );
+    write(f, op);
 }

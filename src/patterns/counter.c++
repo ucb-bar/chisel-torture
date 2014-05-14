@@ -35,6 +35,7 @@ public:
             auto up = r->update(sum);
 
             _compute = {r, sum, up};
+            _outputs = {r->d()};
         }
 };
 

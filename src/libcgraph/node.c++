@@ -41,6 +41,18 @@ node::node(size_t value)
 {
 }
 
+
+node::node(const std::string& name)
+    : libflo::node(name,
+                   libflo::unknown<size_t>(),
+                   libflo::unknown<size_t>(),
+                   false,
+                   true,
+                   libflo::unknown<size_t>(),
+                   libflo::unknown<std::string>()
+        )
+{
+}
 std::string unique_name(void)
 {
     static unsigned long index = 0;
