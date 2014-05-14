@@ -33,10 +33,13 @@
 int main(int argc __attribute__((unused)),
          const char **argv __attribute__((unused)))
 {
+    FILE *cir = fopen("circuit.flo", "w");
+    FILE *vcd = fopen("gold.vcd", "w");
+
 #if defined(FLO)
-    std::shared_ptr<format> format = std::make_shared<format_flo>(stdout);
+    std::shared_ptr<format> format = std::make_shared<format_flo>(cir, vcd);
 #elif defined(CHISEL)
-    std::shared_ptr<format> format = std::make_shared<format_chisel>(stdout);
+    std::shared_ptr<format> format = std::make_shared<format_chisel>(cir, vcd);
 #else
 #error "Define an output format"
 #endif

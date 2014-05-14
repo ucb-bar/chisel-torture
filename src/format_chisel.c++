@@ -21,7 +21,7 @@
 
 #include "format_chisel.h++"
 
-format_chisel::format_chisel(FILE *file)
-    : format_flo(file)
+format_chisel::format_chisel(FILE *circuit, FILE *vcd)
+    : format_flo(circuit, vcd)
 {
 }

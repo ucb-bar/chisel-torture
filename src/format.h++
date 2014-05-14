@@ -35,12 +35,13 @@ protected:
 
 protected:
     /* The file that we're going to output this circuit into. */
-    FILE *_file;
+    FILE *_circuit;
+    FILE *_vcd;
 
 public:
     /* Creates a new output formatter with the given file as the
      * target. */
-    format(FILE *file);
+    format(FILE *circut, FILE *vcd);
 
 public:
     virtual void write(const op_ptr& op) = 0;

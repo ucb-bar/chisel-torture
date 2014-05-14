@@ -26,7 +26,7 @@
 
 class format_flo: public format {
 public:
-    format_flo(FILE *file);
+    format_flo(FILE *circuit, FILE *vcd);
 
 public:
     void write(const op_ptr& op);

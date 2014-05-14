@@ -21,8 +21,9 @@
 
 #include "format.h++"
 
-format::format(FILE *file)
-    : _file(file)
+format::format(FILE *circuit, FILE *vcd)
+    : _circuit(circuit),
+      _vcd(vcd)
 {
 }
 

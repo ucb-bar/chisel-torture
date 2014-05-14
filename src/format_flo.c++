@@ -22,14 +22,14 @@
 #include "format_flo.h++"
 #include <libcgraph/operation.h++>
 
-format_flo::format_flo(FILE *file)
-    : format(file)
+format_flo::format_flo(FILE *circuit, FILE *vcd)
+    : format(circuit, vcd)
 {
 }
 
 void format_flo::write( const op_ptr& op)
 {
-    op->writeln(_file);
+    op->writeln(_circuit);
 }
 
 void format_flo::input(const node_ptr& node)
