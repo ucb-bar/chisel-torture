@@ -27,6 +27,12 @@ format::format(FILE *circuit, FILE *vcd)
 {
 }
 
+format::~format(void)
+{
+    fclose(_circuit);
+    fclose(_vcd);
+}
+
 void format::write(const pattern_ptr& pattern)
 {
     for (const auto& node: pattern->inputs())

@@ -42,6 +42,7 @@ public:
     /* Creates a new output formatter with the given file as the
      * target. */
     format(FILE *circut, FILE *vcd);
+    ~format(void);
 
 public:
     virtual void write(const op_ptr& op) = 0;
