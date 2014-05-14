@@ -27,7 +27,7 @@ format_flo::format_flo(FILE *circuit, FILE *vcd)
 {
 }
 
-void format_flo::write( const op_ptr& op)
+void format_flo::write(const op_ptr& op)
 {
     op->writeln(_circuit);
 }
