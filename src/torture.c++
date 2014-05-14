@@ -19,6 +19,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+#include <libcgraph/pattern_merge.h++>
 #include <libcgraph/pattern_store.h++>
 
 #ifdef FLO
@@ -40,13 +41,25 @@ int main(int argc __attribute__((unused)),
 #error "Define an output format"
 #endif
 
-    /* Selects the first pattern for building. */
-    auto factory = libcgraph::pattern_store::list()[0];
-    auto pattern = factory->create();
+    /* This special sort of pattern actually allows us to merge
+     * together other patterns. */
+    auto merge = std::make_shared<libcgraph::pattern_merge>();
+
+    /* Walk through the list of all patterns we know how to build. */
+    for (const auto& factory: libcgraph::pattern_store::list()) {
+        for (const auto& example: factory->examples()) {
+            /* Create a new instance of that sort of pattern from the
+             * given factory and then proceed to add it in parallel
+             * with the rest of the patterns to the big one we're
+             * going to output. */
+            auto pattern = factory->create(example);
+            merge->parallel(pattern);
+        }
+    }
 
     /* Now that we've got the super-pattern, just go ahead and write
      * it out. */
-    format->write(stdout, pattern);
+    format->write(stdout, merge);
 
     return 0;
 }
