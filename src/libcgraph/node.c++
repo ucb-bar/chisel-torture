@@ -59,9 +59,19 @@ node::node(const std::string& name)
 
 std::string node::vcd_string(void) const
 {
+    auto buffer = new char[width() + 5];
+
     std::stringstream s;
-    s << _value;
-    return s.str();
+    s <<  _value.get_str(2);
+
+    snprintf(buffer, width() + 4, "b%*s", (int)(width()), s.str().c_str());
+    for (size_t i = 0; i < strlen(buffer); ++i)
+        if (isspace(buffer[i]))
+            buffer[i] = '0';
+
+    std::string out = buffer;
+    delete[] buffer;
+    return out;
 }
 
 std::string unique_name(void)

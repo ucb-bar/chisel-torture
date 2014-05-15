@@ -135,15 +135,23 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles)
         gen_short_name(node);
 
     /* Write the VCD header. */
-    fprintf(_vcd, "$scope module Torture\n");
+    fprintf(_vcd, "$timescale 1ps $end\n");
+
+    fprintf(_vcd, "$scope module Torture $end\n");
 
     for (const auto& pair: short_names) {
-        fprintf(_vcd, "$var wire %lu %s %s\n",
+        fprintf(_vcd, "$var wire %lu %s %s $end\n",
                 pair.first->width(),
-                io_name(pair.first).c_str(),
-                pair.second.c_str()
+                pair.second.c_str(),
+                io_name(pair.first).c_str()
             );
     }
+
+    fprintf(_vcd, "$upscope $end\n");
+
+    fprintf(_vcd, "$enddefinitions $end\n");
+
+    fprintf(_vcd, "$dumpvars\n$end\n");
 
     /* Now go ahead and write the VCD body. */
     for (size_t cycle = 0; cycle < cycles; ++cycle) {
@@ -156,8 +164,8 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles)
 
                 auto short_name = short_names[n];
                 fprintf(_vcd, "%s %s\n",
-                        short_name.c_str(),
-                        n->vcd_string().c_str()
+                        n->vcd_string().c_str(),
+                        short_name.c_str()
                     );
             };
         for (const auto& node: pattern->inputs())
