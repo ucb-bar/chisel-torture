@@ -34,11 +34,11 @@ int main(int argc __attribute__((unused)),
          const char **argv __attribute__((unused)))
 {
 #if defined(FLO)
-    FILE *cir = fopen("torture.flo", "w");
+    FILE *cir = fopen("Torture.flo", "w");
 #elif defined(CHISEL)
-    FILE *cir = fopen("torture.scala", "w");
+    FILE *cir = fopen("Torture.scala", "w");
 #endif
-    FILE *vcd = fopen("torture.vcd", "w");
+    FILE *vcd = fopen("Torture.vcd", "w");
 
 #if defined(FLO)
     std::shared_ptr<format> format = std::make_shared<format_flo>(cir, vcd);
