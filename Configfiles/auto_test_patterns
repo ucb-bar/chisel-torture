@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cat test/flo-patterns/pattern_list.bash | while read pattern
+do
+    echo "TESTS   += $pattern"
+    echo "SOURCES += check_pattern.bash"
+done

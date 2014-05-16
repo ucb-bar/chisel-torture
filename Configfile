@@ -17,8 +17,12 @@ COMPILEOPTS += `ppkg-config flo --cflags`
 LINKOPTS    += `ppkg-config flo --libs`
 
 # GMP doesn't have a pkg-config file, which IMHO is a bug!
+LANGUAGES   += c++
 LINKOPTS    += -lgmp
 LINKOPTS    += -lgmpxx
+
+# The test scripts use BASH
+LANGUAGES   += bash
 
 # A Chisel (and Flo) torture tester.  This mixes together different
 # Chisel patterns and produces a large Chisel graph.
@@ -44,3 +48,5 @@ BINARIES    += flo-patterns
 SOURCES     += patterns.c++
 COMPILEOPTS += -DFLO
 CONFIG      += auto_patterns
+TESTSRC     += all_patterns.bash
+CONFIG      += auto_test_patterns
