@@ -53,7 +53,7 @@ public:
     void step(void)
         {
             value += 1;
-            if (value > limit)
+            if (value >= limit)
                 value -= limit;
 
             cycle += 1;
