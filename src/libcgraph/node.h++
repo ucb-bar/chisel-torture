@@ -56,6 +56,8 @@ namespace libcgraph {
 
         /* Updates the value of this node, also updating the cycle it
          * cooresponds to. */
+        void update(const std::shared_ptr<node>& n, ssize_t cycle)
+            { this->update(n->_value, cycle); }
         void update(const mpz_class& value, ssize_t cycle);
 
         /* Returns the value of this node. */
