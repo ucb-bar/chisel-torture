@@ -24,11 +24,10 @@ g++ harness.c++ -c -o harness.o
 # Link everything together
 g++ harness.o Torture.o -o Torture
 
-# FIXME: This should really be generated from a VCD file
-cat >test.in <<EOF
-step 100
-quit
-EOF
+# Convert the VCD's input nodes into something the Chisel tester
+# understands.
+vcd2step Torture.vcd Torture.flo test.in
+cat test.in
 
 # Run the tests to see what happens
 mv Torture.vcd Torture-gold.vcd
