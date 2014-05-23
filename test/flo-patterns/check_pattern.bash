@@ -15,10 +15,10 @@ cat Torture.flo
 cat Torture.vcd
 
 # Build that Flo output into a C++ emulator
-flo-llvm Torture.flo
+flo-llvm --torture Torture.flo
 
 # Build the test harness that goes along with this code
-flo-llvm-release Torture.flo --harness > harness.c++
+flo-llvm-torture Torture.flo --harness > harness.c++
 g++ harness.c++ -c -o harness.o
 
 # Link everything together
