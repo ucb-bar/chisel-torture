@@ -22,6 +22,7 @@
 #include "format.h++"
 #include <libflo/flo.h++>
 #include <unordered_map>
+#include <gmpxx.h>
 
 format::format(FILE *circuit, FILE *vcd)
     : _circuit(circuit),
@@ -152,11 +153,15 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles)
 
     fprintf(_vcd, "$dumpvars\n$end\n");
 
+    /* Otherwise-unconnected inputs will be randomly twiddled. */
+    gmp_randclass rng(gmp_randinit_default);
+    rng.seed(0);
+
     /* Now go ahead and write the VCD body. */
     for (size_t cycle = 0; cycle < cycles; ++cycle) {
         fprintf(_vcd, "#%lu\n", cycle);
 
-        auto dump = [&](node_ptr n) -> void
+        auto dump = [&](node_ptr n, size_t cycle) -> void
             {
                 if (n->changed_on_cycle(cycle) == false)
                     return;
@@ -167,12 +172,16 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles)
                         short_name.c_str()
                     );
             };
-        for (const auto& node: pattern->inputs())
-            dump(node);
-        for (const auto& node: pattern->outputs())
-            dump(node);
+
+        for (const auto& node: pattern->inputs()) {
+            node->update(cycle, cycle);
+            dump(node, cycle);
+        }
 
         pattern->step();
+
+        for (const auto& node: pattern->outputs())
+            dump(node, cycle);
     }
 }
 

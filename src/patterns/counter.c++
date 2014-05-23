@@ -52,12 +52,14 @@ public:
 
     void step(void)
         {
+            r->d()->update(value, cycle);
+
+            cycle += 1;
+
             value += 1;
             if (value >= limit)
                 value -= limit;
 
-            cycle += 1;
-            r->d()->update(value, cycle);
         }
 };
 
