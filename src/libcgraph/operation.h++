@@ -32,7 +32,8 @@
 namespace libcgraph {
     /* Holds an operation, which can operate on nodes. */
     class operation: public libflo::operation<node> {
-        typedef std::shared_ptr<operation> op_ptr;
+        typedef std::shared_ptr<libcgraph::operation> op_ptr;
+        typedef std::shared_ptr<libcgraph::node> node_ptr;
 
     public:
         operation(const std::shared_ptr<node>& dest,
@@ -49,6 +50,11 @@ namespace libcgraph {
         friend op_ptr operator+(const op_ptr& a, const op_ptr& b);
         friend op_ptr operator+(const op_ptr& a, size_t b);
         friend op_ptr operator+(size_t a, const op_ptr& b);
+
+        friend op_ptr operator&(const op_ptr& a, const op_ptr& b);
+        friend op_ptr operator&(const op_ptr& a, const node_ptr& b);
+        friend op_ptr operator&(const node_ptr& a, const op_ptr& b);
+        friend op_ptr operator&(const node_ptr& a, const node_ptr& b);
 
         /* Updates a register, which itself is an operation (it
          * requires a mov).  Note that this is an error for anything

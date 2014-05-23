@@ -21,7 +21,8 @@
 
 #include "operation.h++"
 using namespace libcgraph;
-typedef std::shared_ptr<operation> op_ptr;
+typedef std::shared_ptr<libcgraph::operation> op_ptr;
+typedef std::shared_ptr<libcgraph::node> node_ptr;
 
 op_ptr libcgraph::operator+(const op_ptr& a, const op_ptr& b)
 {
@@ -50,6 +51,50 @@ op_ptr libcgraph::operator+(size_t a, const op_ptr& b)
         libflo::unknown<size_t>(),
         libflo::opcode::ADD,
         std::vector<std::shared_ptr<node>>({ca, b->d()})
+        );
+}
+
+op_ptr libcgraph::operator&(const op_ptr& a, const op_ptr& b)
+{
+    auto out = std::make_shared<node>();
+    return std::make_shared<operation>(
+        out,
+        libflo::unknown<size_t>(),
+        libflo::opcode::AND,
+        std::vector<std::shared_ptr<node>>({a->d(), b->d()})
+        );
+}
+
+op_ptr libcgraph::operator&(const op_ptr& a, const node_ptr& b)
+{
+    auto out = std::make_shared<node>();
+    return std::make_shared<operation>(
+        out,
+        libflo::unknown<size_t>(),
+        libflo::opcode::AND,
+        std::vector<std::shared_ptr<node>>({a->d(), b})
+        );
+}
+
+op_ptr libcgraph::operator&(const node_ptr& a, const op_ptr& b)
+{
+    auto out = std::make_shared<node>();
+    return std::make_shared<operation>(
+        out,
+        libflo::unknown<size_t>(),
+        libflo::opcode::AND,
+        std::vector<std::shared_ptr<node>>({a, b->d()})
+        );
+}
+
+op_ptr libcgraph::operator&(const node_ptr& a, const node_ptr& b)
+{
+    auto out = std::make_shared<node>();
+    return std::make_shared<operation>(
+        out,
+        libflo::unknown<size_t>(),
+        libflo::opcode::AND,
+        std::vector<std::shared_ptr<node>>({a, b})
         );
 }
 
