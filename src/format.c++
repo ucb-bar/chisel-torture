@@ -39,7 +39,7 @@ format::~format(void)
 
 void format::write(const pattern_ptr& pattern)
 {
-    for (const auto& node: pattern->inputs()) {
+    for (auto& node: pattern->inputs()) {
         /* Generate the op that allows this node to be connected to
          * the outside world. */
         {
@@ -47,13 +47,12 @@ void format::write(const pattern_ptr& pattern)
             char in_name[1024];
             snprintf(in_name, 1024, "Torture::io_in%lu", index++);
 
-            auto in = std::make_shared<libcgraph::node>(in_name);
-
+            node->update_name(in_name);
             auto op = std::make_shared<libcgraph::operation>(
                 node,
                 libflo::unknown<size_t>(),
                 libflo::opcode::IN,
-                std::vector<std::shared_ptr<libcgraph::node>>({in})
+                std::vector<std::shared_ptr<libcgraph::node>>()
                 );
 
             _io_ops[node] = op;
