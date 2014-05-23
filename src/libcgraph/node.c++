@@ -87,7 +87,7 @@ std::string unique_name(void)
 
 void node::update(const mpz_class& value, ssize_t cycle)
 {
-    if (cycle <= _changed_cycle) {
+    if (cycle < _changed_cycle) {
         fprintf(stderr, "Last changed on %ld, now %ld\n",
                 _changed_cycle,
                 cycle
