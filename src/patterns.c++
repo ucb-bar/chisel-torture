@@ -32,21 +32,6 @@
 
 int main(int argc, const char **argv)
 {
-#if defined(FLO)
-    FILE *cir = fopen("Torture.flo", "w");
-#elif defined(CHISEL)
-    FILE *cir = fopen("Torture.scala", "w");
-#endif
-    FILE *vcd = fopen("Torture.vcd", "w");
-
-#if defined(FLO)
-    std::shared_ptr<format> format = std::make_shared<format_flo>(cir, vcd);
-#elif defined(CHISEL)
-    std::shared_ptr<format> format = std::make_shared<format_chisel>(cir, vcd);
-#else
-#error "Define an output format"
-#endif
-
     if ((argc == 1) || ((argc == 2) && (strcmp(argv[1], "--help") == 0))) {
         fprintf(stderr, "%s: A set of Chisel circuit patterns\n", argv[0]);
         fprintf(stderr, "  --list: Lists all the patterns by name\n");
@@ -77,6 +62,21 @@ int main(int argc, const char **argv)
             fprintf(stderr, "No such pattern: '%s'\n", argv[2]);
             abort();
         }
+
+#if defined(FLO)
+        FILE *cir = fopen("Torture.flo", "w");
+#elif defined(CHISEL)
+        FILE *cir = fopen("Torture.scala", "w");
+#endif
+        FILE *vcd = fopen("Torture.vcd", "w");
+
+#if defined(FLO)
+        std::shared_ptr<format> format = std::make_shared<format_flo>(cir, vcd);
+#elif defined(CHISEL)
+        std::shared_ptr<format> format = std::make_shared<format_chisel>(cir, vcd);
+#else
+#error "Define an output format"
+#endif
 
         auto pattern = factory->create(argv[3]);
         format->write(pattern);
