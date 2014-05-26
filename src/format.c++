@@ -174,7 +174,7 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles)
             };
 
         for (const auto& node: pattern->inputs()) {
-            node->update(cycle, cycle);
+            node->update(rng.get_z_bits(node->width()), cycle);
             dump(node, cycle);
         }
 
