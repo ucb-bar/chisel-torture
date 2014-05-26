@@ -25,13 +25,13 @@
 #include <libcgraph/reg.h++>
 #include <gmpxx.h>
 
-class one_sided_and_tree: public libcgraph::pattern {
+class one_input_and_tree: public libcgraph::pattern {
 private:
     std::shared_ptr<libcgraph::node> in, out;
     ssize_t cycle;
 
 public:
-    one_sided_and_tree(size_t _width, size_t _depth)
+    one_input_and_tree(size_t _width, size_t _depth)
         : in(std::make_shared<libcgraph::node>()),
           cycle(0)
         {
@@ -61,17 +61,17 @@ public:
         }
 };
 
-class one_sided_and_tree_factory: public libcgraph::pattern_factory {
+class one_input_and_tree_factory: public libcgraph::pattern_factory {
     typedef std::shared_ptr<libcgraph::pattern> pattern_ptr;
 
     const std::string name(void) const
         {
-            return "one_sided_and_tree";
+            return "one_input_and_tree";
         }
 
     const pattern_ptr create(void) const
         {
-            return std::make_shared<one_sided_and_tree>(32, 128);
+            return std::make_shared<one_input_and_tree>(32, 128);
         }
 
     const pattern_ptr create(const std::string& args) const
@@ -82,7 +82,7 @@ class one_sided_and_tree_factory: public libcgraph::pattern_factory {
                 abort();
             }
 
-            return std::make_shared<one_sided_and_tree>(width, depth);
+            return std::make_shared<one_input_and_tree>(width, depth);
         }
 
     std::vector<std::string> examples(void) const
@@ -94,6 +94,6 @@ class one_sided_and_tree_factory: public libcgraph::pattern_factory {
 static void cons(void) __attribute__((constructor));
 void cons(void)
 {
-    auto factory = std::make_shared<one_sided_and_tree_factory>();
+    auto factory = std::make_shared<one_input_and_tree_factory>();
     libcgraph::pattern_store::link(factory);
 }
