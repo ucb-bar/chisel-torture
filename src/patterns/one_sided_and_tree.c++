@@ -44,7 +44,7 @@ public:
                 );
             _compute.push_back(op);
 
-            for (size_t i = 0; i < _depth; ++i) {
+            for (size_t i = 0; i < _depth - 1; ++i) {
                 auto n = std::make_shared<libcgraph::node>();
                 op = op & n;
                 _compute.push_back(op);
