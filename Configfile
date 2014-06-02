@@ -35,6 +35,7 @@ BINARIES    += flo-torture
 SOURCES     += torture.c++
 COMPILEOPTS += -DFLO
 CONFIG      += auto_patterns
+CONFIG      += auto_seed
 
 # Allows for examination of single patterns.  There's two versions of
 # this: one that outputs to Flo files and out that outputs to Chisel
