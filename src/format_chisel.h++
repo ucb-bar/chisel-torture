@@ -24,9 +24,23 @@
 
 #include "format_flo.h++"
 
-class format_chisel: public format_flo {
+class format_chisel: public format {
+private:
+    /* Chisel needs to have all the IO bundled together at the top of
+     * a module. */
+    std::vector<op_ptr> _compute;
+    std::vector<node_ptr> _inputs;
+    std::vector<node_ptr> _outputs;
+
 public:
     format_chisel(FILE *circuit, FILE *vcd);
+    ~format_chisel(void);
+
+public:
+    /* Overrides for format virtual methods. */
+    virtual void write(const op_ptr& op);
+    virtual void input(const node_ptr& node);
+    virtual void output(const node_ptr& node);
 };
 
 #endif

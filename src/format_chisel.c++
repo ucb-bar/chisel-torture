@@ -22,6 +22,267 @@
 #include "format_chisel.h++"
 
 format_chisel::format_chisel(FILE *circuit, FILE *vcd)
-    : format_flo(circuit, vcd)
+    : format(circuit, vcd)
 {
+}
+
+format_chisel::~format_chisel(void)
+{
+#if 0
+    /* Chisel names IO nodes differently than the rest of the nodes in
+     * a system, which means we need to name mangle them differently.
+     * The only way to tell if a node is an IO node is to look at the
+     * IO sets, so here I just use a map to make that quicker. */
+    auto io_nodes = std::unordered_map<node_ptr, bool>();
+    auto is_io = [&](const node_ptr& node) -> bool
+        {
+            auto l = io_nodes.find(node);
+            if (l == io_nodes.end())
+                return false;
+            return l->second;
+        };
+    auto mangle = [&](const node_ptr& node) -> std::string
+        {
+            if (is_io(node) == false)
+                return node->name();
+
+            char buffer[1024];
+            snprintf(buffer, 1024, "io.%s", node->name().c_str());
+            return buffer;
+        };
+#endif
+
+    auto mangle_io_name = [&](const node_ptr& n) -> std::string
+        {
+            auto name = n->short_chisel_name();
+            if (_io_names.find(n) != _io_names.end())
+                name = _io_names[n];
+
+            if (strncmp(name.c_str(), "io_", 3) == 0)
+                return name.c_str() + 3;
+
+            return n->name();
+        };
+
+    fprintf(_circuit, "import Chisel._;\n");
+
+    /* Generate a test harness. */
+    fprintf(_circuit, "object Torture {\n");
+    fprintf(_circuit, "  def main(args: Array[String]): Unit = {\n");
+    fprintf(_circuit, "    chiselMain(args, () => Module(new Torture()));\n");
+    fprintf(_circuit, "  }\n");
+    fprintf(_circuit, "}\n");
+
+    fprintf(_circuit, "class Torture extends Module {\n");
+
+    /* Write all the input and output into a class.  Everything is
+     * emitted as a Bits because */
+    fprintf(_circuit, "  class IO extends Bundle {\n");
+    for (const auto& n: _inputs) {
+        fprintf(_circuit, "    val %s = Bits(INPUT, width=%lu);\n",
+                mangle_io_name(n).c_str(),
+                n->width()
+            );
+    }
+    for (const auto& n: _outputs) {
+        fprintf(_circuit, "    val %s = Bits(OUTPUT, width=%lu);\n",
+                mangle_io_name(n).c_str(),
+                n->width()
+            );
+    }
+    fprintf(_circuit, "  }\n");
+
+    /* Emit that class that we just generated. */
+    fprintf(_circuit, "  val io = new IO();\n");
+
+    /* Now go ahead and try to emit every computation. */
+    for (const auto& in: _inputs) {
+        /* While input nodes don't _actually_ need to do anything, if
+         * we don't do this then we'll need to prefix all input nodes
+         * with "io.".  Essentially this is just name mangling. */
+        fprintf(_circuit, "  val %s = Bits(width = %lu);\n",
+                in->short_chisel_name().c_str(),
+                in->width()
+            );
+        fprintf(_circuit, "  %s := io.%s;\n",
+                in->short_chisel_name().c_str(),
+                mangle_io_name(in).c_str()
+            );
+    }
+
+    /* This first pass through the operations list creates all the
+     * wires and state elements so they can be referenced later. */
+    for (const auto& op: _compute) {
+        switch (op->op()) {
+        case libflo::opcode::IN:
+        case libflo::opcode::OUT:
+            break;
+
+        case libflo::opcode::REG:
+            fprintf(_circuit, "  val %s = Reg(init = Bits(0, width = %lu));\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->d()->width()
+                );
+            break;
+
+        case libflo::opcode::ADD:
+        case libflo::opcode::AND:
+        case libflo::opcode::MOV:
+        case libflo::opcode::RSH:
+            fprintf(_circuit, "  val %s = Bits(width = %lu);\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->d()->width()
+                );
+            break;
+
+        case libflo::opcode::ARSH:
+        case libflo::opcode::CAT:
+        case libflo::opcode::CATD:
+        case libflo::opcode::EAT:
+        case libflo::opcode::EQ:
+        case libflo::opcode::GTE:
+        case libflo::opcode::INIT:
+        case libflo::opcode::LD:
+        case libflo::opcode::LIT:
+        case libflo::opcode::LOG2:
+        case libflo::opcode::LSH:
+        case libflo::opcode::LT:
+        case libflo::opcode::MSK:
+        case libflo::opcode::MUL:
+        case libflo::opcode::MUX:
+        case libflo::opcode::NEG:
+        case libflo::opcode::NEQ:
+        case libflo::opcode::NOP:
+        case libflo::opcode::NOT:
+        case libflo::opcode::OR:
+        case libflo::opcode::RD:
+        case libflo::opcode::RND:
+        case libflo::opcode::RSHD:
+        case libflo::opcode::RST:
+        case libflo::opcode::ST:
+        case libflo::opcode::SUB:
+        case libflo::opcode::WR:
+        case libflo::opcode::XOR:
+        case libflo::opcode::MEM:
+            fprintf(stderr, "Unimplemented operation: ");
+            op->writeln_debug(stderr);
+            abort();
+            break;
+        }
+    }
+
+    /* Here's the real operation generation code. */
+    for (const auto& op: _compute) {
+        switch (op->op()) {
+        case libflo::opcode::IN:
+            /* Input nodes won't ever exist. */
+            fprintf(stderr, "IN nodes can't exist: ");
+            op->writeln_debug(stderr);
+            abort();
+            break;
+
+        case libflo::opcode::OUT:
+            /* Output nodes won't ever exist. */
+            fprintf(stderr, "OUT nodes can't exist: ");
+            op->writeln_debug(stderr);
+            abort();
+            break;
+
+        case libflo::opcode::ADD:
+            fprintf(_circuit, "  %s := (UInt(%s) + UInt(%s)).toBits;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
+        case libflo::opcode::AND:
+            fprintf(_circuit, "  %s := %s & %s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
+        case libflo::opcode::MOV:
+            fprintf(_circuit, "  %s := %s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str()
+                );
+            break;
+
+        case libflo::opcode::REG:
+            fprintf(_circuit, "  %s := %s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
+        case libflo::opcode::RSH:
+            fprintf(_circuit, "  %s := (UInt(%s) << UInt(%s)).toBits;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
+        case libflo::opcode::ARSH:
+        case libflo::opcode::CAT:
+        case libflo::opcode::CATD:
+        case libflo::opcode::EAT:
+        case libflo::opcode::EQ:
+        case libflo::opcode::GTE:
+        case libflo::opcode::INIT:
+        case libflo::opcode::LD:
+        case libflo::opcode::LIT:
+        case libflo::opcode::LOG2:
+        case libflo::opcode::LSH:
+        case libflo::opcode::LT:
+        case libflo::opcode::MEM:
+        case libflo::opcode::MSK:
+        case libflo::opcode::MUL:
+        case libflo::opcode::MUX:
+        case libflo::opcode::NEG:
+        case libflo::opcode::NEQ:
+        case libflo::opcode::NOP:
+        case libflo::opcode::NOT:
+        case libflo::opcode::OR:
+        case libflo::opcode::RD:
+        case libflo::opcode::RND:
+        case libflo::opcode::RSHD:
+        case libflo::opcode::RST:
+        case libflo::opcode::ST:
+        case libflo::opcode::SUB:
+        case libflo::opcode::WR:
+        case libflo::opcode::XOR:
+            fprintf(stderr, "Unimplemented operation: ");
+            op->writeln_debug(stderr);
+            abort();
+            break;
+        }
+    }
+
+    for (const auto& out: _outputs) {
+        fprintf(_circuit, "  io.%s := %s;\n",
+                mangle_io_name(out).c_str(),
+                out->short_chisel_name().c_str()
+            );
+    }
+
+    fprintf(_circuit, "}\n");
+}
+
+void format_chisel::write(const op_ptr& op)
+{
+    _compute.push_back(op);
+}
+
+void format_chisel::input(const node_ptr& node)
+{
+    _inputs.push_back(node);
+}
+
+void format_chisel::output(const node_ptr& node)
+{
+    _outputs.push_back(node);
 }

@@ -72,6 +72,11 @@ namespace libcgraph {
          * as just MOVing this node to the given node every time it is
          * updated. */
         void link_to(const std::shared_ptr<node>& target);
+
+        /* Returns a "short chisel name", which is the name that
+         * Chisel would give this node solely inside the class (in
+         * other words, no prefix at all). */
+        std::string short_chisel_name(void) const;
     };
 }
 

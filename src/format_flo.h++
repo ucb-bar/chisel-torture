@@ -29,9 +29,10 @@ public:
     format_flo(FILE *circuit, FILE *vcd);
 
 public:
-    void write(const op_ptr& op);
-    void input(const node_ptr& node);
-    void output(const node_ptr& node);
+    /* Overrides for format virtual methods. */
+    virtual void write(const op_ptr& op);
+    virtual void input(const node_ptr& node);
+    virtual void output(const node_ptr& node);
 };
 
 #endif

@@ -112,3 +112,15 @@ void node::link_to(const std::shared_ptr<node>& target)
     _downstream.push_back(target);
 }
 
+std::string node::short_chisel_name(void) const
+{
+    char buffer[1024];
+    snprintf(buffer, 1024, "%s", name().c_str());
+
+    char *name = buffer;
+    for (size_t i = 0; i < strlen(buffer); ++i)
+        if (buffer[i] == ':')
+            name = buffer + i + 1;
+
+    return name;
+}

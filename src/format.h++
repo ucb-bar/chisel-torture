@@ -48,7 +48,7 @@ public:
     /* Creates a new output formatter with the given file as the
      * target. */
     format(FILE *circut, FILE *vcd);
-    ~format(void);
+    virtual ~format(void);
 
 public:
     /* Writes a single pattern out as a circuit to the circuit output

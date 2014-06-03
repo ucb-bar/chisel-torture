@@ -30,6 +30,7 @@ BINARIES    += chisel-torture
 SOURCES     += torture.c++
 COMPILEOPTS += -DCHISEL
 CONFIG      += auto_patterns
+CONFIG      += auto_seed
 
 BINARIES    += flo-torture
 SOURCES     += torture.c++
@@ -44,6 +45,7 @@ BINARIES    += chisel-patterns
 SOURCES     += patterns.c++
 COMPILEOPTS += -DCHISEL
 CONFIG      += auto_patterns
+CONFIG      += auto_test_patterns
 
 BINARIES    += flo-patterns
 SOURCES     += patterns.c++
