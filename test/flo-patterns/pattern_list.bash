@@ -7,3 +7,5 @@ one_sided_and_tree-32-128
 one_sided_and_tree-64-4
 one_sided_and_tree-64-8
 one_sided_and_tree-64-128
+fan_out-32-4
+fan_out-64-8
