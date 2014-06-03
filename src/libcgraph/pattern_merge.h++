@@ -30,13 +30,27 @@ namespace libcgraph {
     class pattern_merge: public pattern {
         std::vector<std::shared_ptr<pattern>> _patterns;
 
+        std::vector<node_ptr> _free_outputs;
+
     public:
-        /* Adds a new pattern in parallel with the current pattern. */
+        /* Adds a new pattern in parallel with the current set of
+         * patterns.  This means that all the IO for the given pattern
+         * will be top-level IO of this pattern. */
         void parallel(const std::shared_ptr<pattern>& to_add);
+
+        /* Adds a new pattern in series with the current set of
+         * patterns.   */
+        void series(const std::shared_ptr<pattern>& to_add);
 
     public:
         /* libcgraph::pattern virtual overrides */
         void step(void);
+
+    private:
+        /* Finds an output that's not used by anything, removes it
+         * from the list of outputs that aren't used anywhere else,
+         * and returns it. */
+        node_ptr find_output_for_input(const node_ptr& input);
     };
 }
 

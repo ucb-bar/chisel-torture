@@ -35,6 +35,11 @@ namespace libcgraph {
         ssize_t _changed_cycle;
         mpz_class _value;
 
+        /* These are the nodes that are "downstream" from this one,
+         * which means they'll get updated whenever this node gets
+         * updated. */
+        std::vector<std::shared_ptr<node>> _downstream;
+
     public:
         /* Generates a new node with a unique name. */
         node(void);
@@ -62,6 +67,11 @@ namespace libcgraph {
 
         /* Returns the value of this node. */
         const mpz_class& value(void) const { return _value; }
+
+        /* Links this node to another node.  This is exactly the same
+         * as just MOVing this node to the given node every time it is
+         * updated. */
+        void link_to(const std::shared_ptr<node>& target);
     };
 }
 

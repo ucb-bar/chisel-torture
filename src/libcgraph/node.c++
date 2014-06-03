@@ -28,7 +28,8 @@ static std::string unique_name(void);
 node::node(void)
     : libflo::node(unique_name()),
       _changed_cycle(-1),
-      _value()
+      _value(),
+      _downstream()
 {
 }
 
@@ -97,4 +98,17 @@ void node::update(const mpz_class& value, ssize_t cycle)
 
     _changed_cycle = cycle;
     _value = value;
+
+    if (this->known_width()) {
+        _value &= (mpz_class(1) << this->width()) - 1;
+    }
+
+    for (const auto& d: _downstream)
+        d->update(value, cycle);
 }
+
+void node::link_to(const std::shared_ptr<node>& target)
+{
+    _downstream.push_back(target);
+}
+

@@ -47,7 +47,6 @@ public:
             for (int i = 1; i < argc; ++i) {
                 if (strcmp(argv[i], "--seed") == 0) {
                     this->_seed = atoi(argv[i+1]);
-                    fprintf(stderr, "seed: %u\n", this->_seed);
                     i++;
                 }
             }
@@ -60,7 +59,6 @@ public:
     size_t rand(void)
         {
             size_t out = rand_r(&(this->_seed));
-            fprintf(stderr, "rand: %lu\n", out);
             return out;
         }
 
@@ -71,7 +69,12 @@ public:
 
     size_t rand(size_t min, size_t max)
         {
-            return (rand() % (max - min)) + min;
+            return (rand() % (max - min + 1)) + min;
+        }
+
+    bool rand_bool(void)
+        {
+            return rand(0, 1) == 1;
         }
 
     size_t count(void)
@@ -117,9 +120,18 @@ int main(int argc, const char **argv)
         auto index = args.rand() % pairings.size();
         auto pair = pairings[index];
         auto instance = pair.first->create(pair.second);
-        /* FIXME: Don't just insert patterns in parallel, do them in
-         * series as well! */
-        merge->parallel(instance);
+
+#ifdef DEBUG_PRINT_PATTERNS
+        fprintf(stderr, "Creating pattern '%s-%s'\n",
+                pair.first->name().c_str(),
+                pair.second.c_str()
+            );
+#endif
+
+        if (args.rand_bool() == true)
+            merge->parallel(instance);
+        else
+            merge->series(instance);
     }
 
     /* Now that we've got the super-pattern, just go ahead and write

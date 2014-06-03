@@ -35,6 +35,7 @@ namespace libcgraph {
      * which is then run through chisel.  Patterns must be able to
      * produce some output given their inputs, which means  */
     class pattern {
+    protected:
         typedef std::shared_ptr<node> node_ptr;
         typedef std::shared_ptr<operation> op_ptr;
 
