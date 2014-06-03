@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for x in $(seq -w 1 10)
+for x in $(seq -w 1 $(Configfiles/auto_test_patterns | wc -l))
 do
     echo "TESTS   += seed-$x"
     echo "SOURCES += check_seed.bash"
