@@ -28,30 +28,6 @@ format_chisel::format_chisel(FILE *circuit, FILE *vcd)
 
 format_chisel::~format_chisel(void)
 {
-#if 0
-    /* Chisel names IO nodes differently than the rest of the nodes in
-     * a system, which means we need to name mangle them differently.
-     * The only way to tell if a node is an IO node is to look at the
-     * IO sets, so here I just use a map to make that quicker. */
-    auto io_nodes = std::unordered_map<node_ptr, bool>();
-    auto is_io = [&](const node_ptr& node) -> bool
-        {
-            auto l = io_nodes.find(node);
-            if (l == io_nodes.end())
-                return false;
-            return l->second;
-        };
-    auto mangle = [&](const node_ptr& node) -> std::string
-        {
-            if (is_io(node) == false)
-                return node->name();
-
-            char buffer[1024];
-            snprintf(buffer, 1024, "io.%s", node->name().c_str());
-            return buffer;
-        };
-#endif
-
     auto mangle_io_name = [&](const node_ptr& n) -> std::string
         {
             auto name = n->short_chisel_name();
