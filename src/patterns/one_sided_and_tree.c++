@@ -35,7 +35,9 @@ public:
         : cycle(0)
         {
             auto in = std::make_shared<libcgraph::node>();
+            in->update_width(_width);
             _inputs.push_back(in);
+
             auto op = std::make_shared<libcgraph::operation>(
                 std::make_shared<libcgraph::node>(),
                 _width,
@@ -46,6 +48,7 @@ public:
 
             for (size_t i = 0; i < _depth - 1; ++i) {
                 auto n = std::make_shared<libcgraph::node>();
+                n->update_width(_width);
                 op = op & n;
                 _compute.push_back(op);
                 _inputs.push_back(n);
