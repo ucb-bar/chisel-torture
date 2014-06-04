@@ -51,7 +51,7 @@ void format::write(const pattern_ptr& pattern)
             node->update_name(in_name);
             auto op = std::make_shared<libcgraph::operation>(
                 node,
-                libflo::unknown<size_t>(),
+                node->width(),
                 libflo::opcode::IN,
                 std::vector<std::shared_ptr<libcgraph::node>>()
                 );
