@@ -9,3 +9,9 @@ one_sided_and_tree-64-8
 one_sided_and_tree-64-128
 fan_out-32-4
 fan_out-64-8
+right_shift-32-32-0
+right_shift-32-32-1
+right_shift-32-1-1
+right_shift-128-32-0
+right_shift-128-32-1
+right_shift-128-32-61
