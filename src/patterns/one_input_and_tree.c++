@@ -52,6 +52,7 @@ public:
             }
 
             out = op->d();
+            out->update_width(_width);
             _outputs = {out};
         }
 

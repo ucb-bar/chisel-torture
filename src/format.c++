@@ -81,10 +81,11 @@ void format::write(const pattern_ptr& pattern)
             snprintf(out_name, 1024, "Torture::io_out%lu", index++);
 
             auto out = std::make_shared<libcgraph::node>(out_name);
+            out->update_width(node->width());
 
             auto op = std::make_shared<libcgraph::operation>(
                 out,
-                libflo::unknown<size_t>(),
+                out->width(),
                 libflo::opcode::OUT,
                 std::vector<std::shared_ptr<libcgraph::node>>({node})
                 );
