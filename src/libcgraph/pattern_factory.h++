@@ -36,17 +36,13 @@ namespace libcgraph {
          * be unique everywhere in the system! */
         virtual const std::string name(void) const = 0;
 
-        /* Creates a new instance of this pattern using random values
-         * for all the parameters. */
-        virtual const pattern_ptr create(void) const = 0;
-
         /* Creates a new instance of this pattern by parsing a string
          * in order to set the parameters.  Note that the exact
          * formatting of this string is entirely up to the subclass!
          * The default implementation for this simply ignores the
          * parameters, which is probably not the smartest of
          * ideas... */
-        virtual const pattern_ptr create(const std::string& params) const;
+        virtual const pattern_ptr create(const std::string& params) const = 0;
 
         /* Lists some examples of how to instantiate a particular
          * pattern. */

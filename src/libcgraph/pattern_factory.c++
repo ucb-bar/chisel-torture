@@ -23,8 +23,3 @@
 using namespace libcgraph;
 
 typedef std::shared_ptr<pattern> pattern_ptr;
-
-const pattern_ptr pattern_factory::create(const std::string& params __attribute__((unused))) const
-{
-    return create();
-}

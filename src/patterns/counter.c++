@@ -71,11 +71,6 @@ class counter_factory: public libcgraph::pattern_factory {
             return "counter";
         }
 
-    const pattern_ptr create(void) const
-        {
-            return std::make_shared<counter>(32);
-        }
-
     const pattern_ptr create(const std::string& args) const
         {
             return std::make_shared<counter>(atoi(args.c_str()));

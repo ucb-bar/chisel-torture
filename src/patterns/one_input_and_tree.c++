@@ -70,11 +70,6 @@ class one_input_and_tree_factory: public libcgraph::pattern_factory {
             return "one_input_and_tree";
         }
 
-    const pattern_ptr create(void) const
-        {
-            return std::make_shared<one_input_and_tree>(32, 128);
-        }
-
     const pattern_ptr create(const std::string& args) const
         {
             int width, depth;
