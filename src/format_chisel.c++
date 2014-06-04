@@ -195,7 +195,7 @@ format_chisel::~format_chisel(void)
             break;
 
         case libflo::opcode::RSH:
-            fprintf(_circuit, "  %s := (UInt(%s) << UInt(%s)).toBits;\n",
+            fprintf(_circuit, "  %s := (UInt(%s) >> UInt(%s)).toBits;\n",
                     op->d()->short_chisel_name().c_str(),
                     op->s()->short_chisel_name().c_str(),
                     op->t()->short_chisel_name().c_str()
