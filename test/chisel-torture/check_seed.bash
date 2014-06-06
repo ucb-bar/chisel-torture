@@ -39,3 +39,14 @@ vcddiff Torture-gold.vcd Torture.vcd
 # (currently all registers end up VCD dumped), so I can't diff the
 # other way.
 #vcddiff Torture.vcd Torture-gold.vcd
+
+# At this point we can run the tests through the Flo backend, just to
+# make sure that exactly the same thing comes out.
+flo-llvm --torture Torture.flo
+flo-llvm-torture Torture.flo --harness > harness.c++
+g++ harness.c++ Torture.o -o Torture
+
+# We can diff the VCDs in both directions now!
+cat test.in | ./Torture
+vcddiff Torture-gold.vcd Torture.vcd
+vcddiff Torture.vcd Torture-gold.vcd
