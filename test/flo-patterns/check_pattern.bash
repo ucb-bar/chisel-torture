@@ -17,6 +17,9 @@ cat Torture.vcd
 # Build that Flo output into a C++ emulator
 flo-llvm --torture Torture.flo
 
+# Show the LLVM IR, for debugging
+flo-llvm-torture Torture.flo --ir
+
 # Build the test harness that goes along with this code
 flo-llvm-torture Torture.flo --harness > harness.c++
 g++ harness.c++ -c -o harness.o

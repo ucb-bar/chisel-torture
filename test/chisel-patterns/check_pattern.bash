@@ -22,6 +22,9 @@ scala -classpath chisel.jar:. Torture --vcd --backend c --genHarness --compile
 cat Torture.cpp
 cat Torture-emulator.cpp
 
+# Show the Chisel-generated Flo file
+cat Torture.flo
+
 # Convert the VCD's input nodes into something the Chisel tester
 # understands.
 vcd2step Torture-gold.vcd Torture.flo test.in
