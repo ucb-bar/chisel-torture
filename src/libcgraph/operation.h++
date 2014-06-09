@@ -59,6 +59,7 @@ namespace libcgraph {
         /* Updates a register, which itself is an operation (it
          * requires a mov).  Note that this is an error for anything
          * that's not a register. */
+        op_ptr update(const node_ptr& val);
         op_ptr update(const op_ptr& val);
     };
 }

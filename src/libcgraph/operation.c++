@@ -98,7 +98,7 @@ op_ptr libcgraph::operator&(const node_ptr& a, const node_ptr& b)
         );
 }
 
-op_ptr operation::update(const op_ptr& val)
+op_ptr operation::update(const node_ptr& n)
 {
     if (op() != libflo::opcode::REG) {
         fprintf(stderr, "Only register can be updated!\n");
@@ -109,6 +109,11 @@ op_ptr operation::update(const op_ptr& val)
         this->s(1),
         libflo::unknown<size_t>(),
         libflo::opcode::MOV,
-        std::vector<std::shared_ptr<node>>({val->d()})
+        std::vector<std::shared_ptr<node>>({n})
         );
+}
+
+op_ptr operation::update(const op_ptr& val)
+{
+    return this->update(val->d());
 }
