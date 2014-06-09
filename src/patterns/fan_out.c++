@@ -28,12 +28,10 @@
 class fan_out: public libcgraph::pattern {
 private:
     std::shared_ptr<libcgraph::node> in;
-    ssize_t cycle;
 
 public:
     fan_out(size_t _width, size_t _depth)
-        : in(std::make_shared<libcgraph::node>()),
-          cycle(0)
+        : in(std::make_shared<libcgraph::node>())
         {
             in->update_width(_width);
             _inputs = {in};
@@ -54,12 +52,10 @@ public:
             }
         }
 
-    void step(void)
+    void step(ssize_t cycle)
         {
             for (const auto& out: _outputs)
                 out->update(in, cycle);
-
-            cycle++;
         }
 };
 

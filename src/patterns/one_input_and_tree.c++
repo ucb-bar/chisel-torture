@@ -28,12 +28,10 @@
 class one_input_and_tree: public libcgraph::pattern {
 private:
     std::shared_ptr<libcgraph::node> in, out;
-    ssize_t cycle;
 
 public:
     one_input_and_tree(size_t _width, size_t _depth)
-        : in(std::make_shared<libcgraph::node>()),
-          cycle(0)
+        : in(std::make_shared<libcgraph::node>())
         {
             in->update_width(_width);
             _inputs = {in};
@@ -56,10 +54,9 @@ public:
             _outputs = {out};
         }
 
-    void step(void)
+    void step(ssize_t cycle)
         {
             out->update(in, cycle);
-            cycle++;
         }
 };
 

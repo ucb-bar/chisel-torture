@@ -58,7 +58,7 @@ namespace libcgraph {
 
         /* Steps the circuit one cycle, updating all its inputs and
          * outputs accordingly. */
-        virtual void step(void) = 0;
+        virtual void step(ssize_t cycle) = 0;
     };
 }
 

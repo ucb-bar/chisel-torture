@@ -80,10 +80,10 @@ void pattern_merge::series(const std::shared_ptr<pattern>& to_add)
         _compute.push_back(op);
 }
 
-void pattern_merge::step(void)
+void pattern_merge::step(ssize_t cycle)
 {
     for (const auto& pattern: _patterns)
-        pattern->step();
+        pattern->step(cycle);
 }
 
 node_ptr pattern_merge::find_output_for_input(const node_ptr& input)

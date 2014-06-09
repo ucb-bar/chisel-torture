@@ -179,7 +179,7 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles)
             dump(node, cycle);
         }
 
-        pattern->step();
+        pattern->step(cycle);
 
         for (const auto& node: pattern->outputs())
             dump(node, cycle);

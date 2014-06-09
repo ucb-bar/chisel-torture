@@ -30,7 +30,6 @@ private:
     size_t width;
     mpz_class value;
     mpz_class limit;
-    size_t cycle;
     std::shared_ptr<libcgraph::operation> r;
 
 public:
@@ -38,7 +37,6 @@ public:
         : width(_width),
           value(0),
           limit(mpz_class(1) << width),
-          cycle(0),
           r(libcgraph::reg(width))
         {
             auto sum = r + 1;
@@ -47,14 +45,12 @@ public:
             _compute = {r, sum, up};
             _outputs = {r->d()};
 
-            r->d()->update(value, cycle);
+            r->d()->update(value, 0);
         }
 
-    void step(void)
+    void step(ssize_t cycle)
         {
             r->d()->update(value, cycle);
-
-            cycle += 1;
 
             value += 1;
             if (value >= limit)

@@ -28,11 +28,9 @@
 class one_sided_and_tree: public libcgraph::pattern {
 private:
     std::shared_ptr<libcgraph::node> out;
-    ssize_t cycle;
 
 public:
     one_sided_and_tree(size_t _width, size_t _depth)
-        : cycle(0)
         {
             auto in = std::make_shared<libcgraph::node>();
             in->update_width(_width);
@@ -59,14 +57,13 @@ public:
             _outputs = {out};
         }
 
-    void step(void)
+    void step(ssize_t cycle)
         {
             mpz_class cur = _inputs[0]->value();
             for (const auto& i: _inputs)
                 cur &= i->value();
 
             out->update(cur, cycle);
-            cycle++;
         }
 };
 

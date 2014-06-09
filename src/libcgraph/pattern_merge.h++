@@ -44,7 +44,7 @@ namespace libcgraph {
 
     public:
         /* libcgraph::pattern virtual overrides */
-        void step(void);
+        void step(ssize_t cycle);
 
     private:
         /* Finds an output that's not used by anything, removes it

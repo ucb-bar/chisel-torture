@@ -30,7 +30,6 @@ class cat: public libcgraph::pattern {
 private:
     std::shared_ptr<libcgraph::node> left, right;
     std::shared_ptr<libcgraph::node> out;
-    ssize_t cycle;
     const size_t left_width;
     const size_t right_width;
 
@@ -39,7 +38,6 @@ public:
         : left(std::make_shared<libcgraph::node>()),
           right(std::make_shared<libcgraph::node>()),
           out(std::make_shared<libcgraph::node>()),
-          cycle(0),
           left_width(_left_width),
           right_width(_right_width)
         {
@@ -65,7 +63,7 @@ public:
 #endif
         }
 
-    void step(void)
+    void step(ssize_t cycle)
         {
             out->update((left->value() << right_width) | right->value(),
                         cycle);
