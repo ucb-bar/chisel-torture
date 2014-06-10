@@ -94,7 +94,8 @@ class variable_right_shift_factory: public libcgraph::pattern_factory {
              * more bits than there are. */
             return {"32-32-4", "32-32-5", "32-32-6"};
 #else
-            return {"32-32-4", "32-32-5"};
+            return {"32-32-4", "32-32-5",
+                    "128-32-7", "256-1-8", "256-65-7"};
 #endif
         }
 };

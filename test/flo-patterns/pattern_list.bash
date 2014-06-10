@@ -23,3 +23,6 @@ reg-32
 reg-64
 variable_right_shift-32-32-4
 variable_right_shift-32-32-5
+variable_right_shift-128-32-7
+variable_right_shift-256-1-8
+variable_right_shift-256-65-7
