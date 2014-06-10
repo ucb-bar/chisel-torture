@@ -21,3 +21,5 @@ cat-65-65
 cat-1-64
 reg-32
 reg-64
+variable_right_shift-32-32-4
+variable_right_shift-32-32-5
