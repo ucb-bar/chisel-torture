@@ -40,3 +40,10 @@ asm_and-32
 asm_and-64
 asm_and-65
 asm_and-127
+asm_eq-3
+asm_eq-5
+asm_eq-19
+asm_eq-32
+asm_eq-64
+asm_eq-65
+asm_eq-127
