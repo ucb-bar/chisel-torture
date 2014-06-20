@@ -54,3 +54,9 @@ asm_gte-32
 asm_gte-64
 asm_gte-65
 asm_gte-127
+asm_lsh_const-32-32-0
+asm_lsh_const-32-32-1
+asm_lsh_const-32-1-1
+asm_lsh_const-128-32-0
+asm_lsh_const-128-32-1
+asm_lsh_const-128-32-61
