@@ -33,3 +33,10 @@ asm_add-32
 asm_add-64
 asm_add-65
 asm_add-127
+asm_and-3
+asm_and-5
+asm_and-19
+asm_and-32
+asm_and-64
+asm_and-65
+asm_and-127
