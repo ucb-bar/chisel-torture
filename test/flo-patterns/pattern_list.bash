@@ -26,3 +26,10 @@ variable_right_shift-32-32-5
 variable_right_shift-128-32-7
 variable_right_shift-256-1-8
 variable_right_shift-256-65-7
+asm_add-3
+asm_add-5
+asm_add-19
+asm_add-32
+asm_add-64
+asm_add-65
+asm_add-127
