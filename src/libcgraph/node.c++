@@ -104,7 +104,7 @@ void node::update(const mpz_class& value, ssize_t cycle)
     }
 
     for (const auto& d: _downstream)
-        d->update(value, cycle);
+        d->update(_value, cycle);
 }
 
 void node::link_to(const std::shared_ptr<node>& target)
