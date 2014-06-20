@@ -113,6 +113,7 @@ format_chisel::~format_chisel(void)
             break;
 
         case libflo::opcode::EQ:
+        case libflo::opcode::GTE:
             fprintf(_circuit, "  val %s = Bits(width = 1);\n",
                     op->d()->short_chisel_name().c_str()
                 );
@@ -121,7 +122,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::ARSH:
         case libflo::opcode::CATD:
         case libflo::opcode::EAT:
-        case libflo::opcode::GTE:
         case libflo::opcode::INIT:
         case libflo::opcode::LD:
         case libflo::opcode::LIT:
@@ -201,6 +201,14 @@ format_chisel::~format_chisel(void)
                 );
             break;
 
+        case libflo::opcode::GTE:
+            fprintf(_circuit, "  %s := %s >= %s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
         case libflo::opcode::MOV:
             fprintf(_circuit, "  %s := %s;\n",
                     op->d()->short_chisel_name().c_str(),
@@ -226,7 +234,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::ARSH:
         case libflo::opcode::CATD:
         case libflo::opcode::EAT:
-        case libflo::opcode::GTE:
         case libflo::opcode::INIT:
         case libflo::opcode::LD:
         case libflo::opcode::LIT:

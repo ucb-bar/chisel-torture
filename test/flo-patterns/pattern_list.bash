@@ -47,3 +47,10 @@ asm_eq-32
 asm_eq-64
 asm_eq-65
 asm_eq-127
+asm_gte-3
+asm_gte-5
+asm_gte-19
+asm_gte-32
+asm_gte-64
+asm_gte-65
+asm_gte-127
