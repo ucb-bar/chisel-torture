@@ -31,6 +31,7 @@ vcd2step Torture-gold.vcd Torture.flo test.in
 cat test.in
 
 # Run the tests to see what happens
+test -x ./Torture
 cat test.in | ./Torture || true
 
 cat Torture.vcd
