@@ -78,6 +78,8 @@ namespace libcgraph {
          * other words, no prefix at all). */
         std::string short_chisel_name(void) const;
     };
+
+    typedef std::shared_ptr<node> node_ptr;
 }
 
 #endif
