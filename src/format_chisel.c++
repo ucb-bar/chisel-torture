@@ -122,6 +122,7 @@ format_chisel::~format_chisel(void)
 
         case libflo::opcode::ARSH:
         case libflo::opcode::CATD:
+        case libflo::opcode::DIV:
         case libflo::opcode::EAT:
         case libflo::opcode::INIT:
         case libflo::opcode::LD:
@@ -241,6 +242,7 @@ format_chisel::~format_chisel(void)
 
         case libflo::opcode::ARSH:
         case libflo::opcode::CATD:
+        case libflo::opcode::DIV:
         case libflo::opcode::EAT:
         case libflo::opcode::INIT:
         case libflo::opcode::LD:
