@@ -186,16 +186,16 @@ format_chisel::~format_chisel(void)
                 );
             break;
 
-        case libflo::opcode::EQ:
-            fprintf(_circuit, "  %s := %s === %s;\n",
+        case libflo::opcode::CAT:
+            fprintf(_circuit, "  %s := Cat(%s, %s);\n",
                     op->d()->short_chisel_name().c_str(),
                     op->s()->short_chisel_name().c_str(),
                     op->t()->short_chisel_name().c_str()
                 );
             break;
 
-        case libflo::opcode::CAT:
-            fprintf(_circuit, "  %s := Cat(%s, %s);\n",
+        case libflo::opcode::EQ:
+            fprintf(_circuit, "  %s := %s === %s;\n",
                     op->d()->short_chisel_name().c_str(),
                     op->s()->short_chisel_name().c_str(),
                     op->t()->short_chisel_name().c_str()
