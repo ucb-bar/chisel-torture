@@ -1,0 +1,12 @@
+chisel-torture: A Chisel fuzz tester
+
+
+The following bugs have been found using chisel-torture:
+
+In chisel:
+  fdcac4e Fix long RSH by adding dat_t::operator[](size_t)
+  15f3035 Fix a code-gen issue related to reinterpret_cast
+  855ad54 Remove a spurious newline from Flo's log2 generation rule
+
+In flo-llvm:
+  18ba6f2 Fix a LSH width odditity
