@@ -105,6 +105,7 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::AND:
         case libflo::opcode::CAT:
         case libflo::opcode::DIV:
+        case libflo::opcode::LOG2:
         case libflo::opcode::LSH:
         case libflo::opcode::MOV:
         case libflo::opcode::MUX:
@@ -130,7 +131,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::INIT:
         case libflo::opcode::LD:
         case libflo::opcode::LIT:
-        case libflo::opcode::LOG2:
         case libflo::opcode::MSK:
         case libflo::opcode::MUL:
         case libflo::opcode::NEG:
@@ -218,6 +218,13 @@ format_chisel::~format_chisel(void)
                 );
             break;
 
+        case libflo::opcode::LOG2:
+            fprintf(_circuit, "  %s := Log2(%s);\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str()
+                );
+            break;
+
         case libflo::opcode::LT:
             fprintf(_circuit, "  %s := %s < %s;\n",
                     op->d()->short_chisel_name().c_str(),
@@ -279,7 +286,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::INIT:
         case libflo::opcode::LD:
         case libflo::opcode::LIT:
-        case libflo::opcode::LOG2:
         case libflo::opcode::MEM:
         case libflo::opcode::MSK:
         case libflo::opcode::MUL:
