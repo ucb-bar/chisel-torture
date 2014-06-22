@@ -15,10 +15,6 @@ right_shift-32-1-1
 right_shift-128-32-0
 right_shift-128-32-1
 right_shift-128-32-61
-cat-1-1
-cat-64-64
-cat-65-65
-cat-1-64
 reg-32
 reg-64
 variable_right_shift-32-32-4
