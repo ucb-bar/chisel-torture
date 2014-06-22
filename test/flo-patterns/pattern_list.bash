@@ -72,3 +72,10 @@ asm_lt-32
 asm_lt-64
 asm_lt-65
 asm_lt-127
+asm_neq-3
+asm_neq-5
+asm_neq-19
+asm_neq-32
+asm_neq-64
+asm_neq-65
+asm_neq-127
