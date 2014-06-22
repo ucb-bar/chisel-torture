@@ -40,6 +40,13 @@ asm_cat-1-1
 asm_cat-64-64
 asm_cat-65-65
 asm_cat-1-64
+asm_div-3
+asm_div-5
+asm_div-19
+asm_div-32
+asm_div-64
+asm_div-65
+asm_div-127
 asm_eq-3
 asm_eq-5
 asm_eq-19

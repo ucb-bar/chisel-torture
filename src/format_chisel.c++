@@ -104,8 +104,10 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::ADD:
         case libflo::opcode::AND:
         case libflo::opcode::CAT:
+        case libflo::opcode::DIV:
         case libflo::opcode::LSH:
         case libflo::opcode::MOV:
+        case libflo::opcode::MUX:
         case libflo::opcode::RSH:
             fprintf(_circuit, "  val %s = Bits(width = %lu);\n",
                     op->d()->short_chisel_name().c_str(),
@@ -124,7 +126,6 @@ format_chisel::~format_chisel(void)
 
         case libflo::opcode::ARSH:
         case libflo::opcode::CATD:
-        case libflo::opcode::DIV:
         case libflo::opcode::EAT:
         case libflo::opcode::INIT:
         case libflo::opcode::LD:
@@ -132,7 +133,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::LOG2:
         case libflo::opcode::MSK:
         case libflo::opcode::MUL:
-        case libflo::opcode::MUX:
         case libflo::opcode::NEG:
         case libflo::opcode::NOP:
         case libflo::opcode::NOT:
@@ -194,6 +194,14 @@ format_chisel::~format_chisel(void)
                 );
             break;
 
+        case libflo::opcode::DIV:
+            fprintf(_circuit, "  %s := %s / %s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
         case libflo::opcode::EQ:
             fprintf(_circuit, "  %s := %s === %s;\n",
                     op->d()->short_chisel_name().c_str(),
@@ -233,6 +241,15 @@ format_chisel::~format_chisel(void)
                 );
             break;
 
+        case libflo::opcode::MUX:
+            fprintf(_circuit, "  %s := Mux(%s === UInt(1), %s, %s);\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str(),
+                    op->u()->short_chisel_name().c_str()
+                );
+            break;
+
         case libflo::opcode::NEQ:
             fprintf(_circuit, "  %s := %s != %s;\n",
                     op->d()->short_chisel_name().c_str(),
@@ -258,7 +275,6 @@ format_chisel::~format_chisel(void)
 
         case libflo::opcode::ARSH:
         case libflo::opcode::CATD:
-        case libflo::opcode::DIV:
         case libflo::opcode::EAT:
         case libflo::opcode::INIT:
         case libflo::opcode::LD:
@@ -267,7 +283,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::MEM:
         case libflo::opcode::MSK:
         case libflo::opcode::MUL:
-        case libflo::opcode::MUX:
         case libflo::opcode::NEG:
         case libflo::opcode::NOP:
         case libflo::opcode::NOT:

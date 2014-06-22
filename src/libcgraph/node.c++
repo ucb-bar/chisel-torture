@@ -122,5 +122,13 @@ std::string node::short_chisel_name(void) const
         if (buffer[i] == ':')
             name = buffer + i + 1;
 
+    /* Direct constant references need to be emitted wrapped in a
+     * UInt, as Chisel won't do the cast automatically. */
+    if (is_const()) {
+        char uint[1024];
+        snprintf(uint, 1024, "UInt(%s)", name);
+        return uint;
+    }
+
     return name;
 }
