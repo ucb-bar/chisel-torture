@@ -26,7 +26,7 @@
 #include <gmpxx.h>
 #include <sstream>
 
-class cat: public libcgraph::pattern {
+class asm_cat: public libcgraph::pattern {
 private:
     std::shared_ptr<libcgraph::node> left, right;
     std::shared_ptr<libcgraph::node> out;
@@ -34,7 +34,7 @@ private:
     const size_t right_width;
 
 public:
-    cat(size_t _left_width, size_t _right_width)
+    asm_cat(size_t _left_width, size_t _right_width)
         : left(std::make_shared<libcgraph::node>()),
           right(std::make_shared<libcgraph::node>()),
           out(std::make_shared<libcgraph::node>()),
@@ -57,7 +57,7 @@ public:
             _compute = {op};
 
 #ifdef DEBUG_PRINT_CAT
-            fprintf(stderr, "cat %lu-%lu: ",
+            fprintf(stderr, "asm_cat %lu-%lu: ",
                     _in_width, _out_width, _offset);
             op->writeln_debug(stderr);
 #endif
@@ -72,12 +72,12 @@ public:
         }
 };
 
-class cat_factory: public libcgraph::pattern_factory {
+class asm_cat_factory: public libcgraph::pattern_factory {
     typedef std::shared_ptr<libcgraph::pattern> pattern_ptr;
 
     const std::string name(void) const
         {
-            return "cat";
+            return "asm_cat";
         }
 
     const pattern_ptr create(const std::string& args) const
@@ -88,7 +88,7 @@ class cat_factory: public libcgraph::pattern_factory {
                 abort();
             }
 
-            return std::make_shared<cat>(lw, rw);
+            return std::make_shared<asm_cat>(lw, rw);
         }
 
     std::vector<std::string> examples(void) const
@@ -96,7 +96,7 @@ class cat_factory: public libcgraph::pattern_factory {
 #if 0
             return {"1-1", "64-64", "65-65", "64-1", "1-64"};
 #else
-            /* FIXME: cat-64-1 doesn't work because of an LLVM
+            /* FIXME: asm_cat-64-1 doesn't work because of an LLVM
              * optimizer bug. */
             return {"1-1", "64-64", "65-65", "1-64"};
 #endif
@@ -106,6 +106,6 @@ class cat_factory: public libcgraph::pattern_factory {
 static void cons(void) __attribute__((constructor));
 void cons(void)
 {
-    auto factory = std::make_shared<cat_factory>();
+    auto factory = std::make_shared<asm_cat_factory>();
     libcgraph::pattern_store::link(factory);
 }
