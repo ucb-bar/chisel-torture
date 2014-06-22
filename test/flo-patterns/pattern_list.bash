@@ -65,3 +65,10 @@ asm_lsh_var-32-32-5
 asm_lsh_var-128-32-7
 asm_lsh_var-256-1-8
 asm_lsh_var-256-65-7
+asm_lt-3
+asm_lt-5
+asm_lt-19
+asm_lt-32
+asm_lt-64
+asm_lt-65
+asm_lt-127
