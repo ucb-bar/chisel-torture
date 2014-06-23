@@ -52,6 +52,11 @@ public:
                 } else if (strcmp(argv[i], "--version") == 0) {
                     printf("%s %s\n", argv[0], PCONFIGURE_VERSION);
                     exit(0);
+                } else if (strcmp(argv[i], "--help") == 0) {
+                    printf("%s: random graph generator\n", argv[0]);
+                    printf("  By default outputs to Torture.*\n");
+                    printf("  --seed: Set the RNG seed\n");
+                    exit(0);
                 } else {
                     fprintf(stderr, "Unknown argument '%s'\n", argv[i]);
                     abort();
