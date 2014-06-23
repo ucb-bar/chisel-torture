@@ -112,6 +112,7 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::NEG:
         case libflo::opcode::NOT:
         case libflo::opcode::RSH:
+        case libflo::opcode::XOR:
             fprintf(_circuit, "  val %s = Bits(width = %lu);\n",
                     op->d()->short_chisel_name().c_str(),
                     op->d()->width()
@@ -144,7 +145,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::ST:
         case libflo::opcode::SUB:
         case libflo::opcode::WR:
-        case libflo::opcode::XOR:
         case libflo::opcode::MEM:
             fprintf(stderr, "Unimplemented operation: ");
             op->writeln_debug(stderr);
@@ -294,6 +294,14 @@ format_chisel::~format_chisel(void)
                 );
             break;
 
+        case libflo::opcode::XOR:
+            fprintf(_circuit, "  %s := %s ^ %s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
         case libflo::opcode::ARSH:
         case libflo::opcode::CATD:
         case libflo::opcode::EAT:
@@ -312,7 +320,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::ST:
         case libflo::opcode::SUB:
         case libflo::opcode::WR:
-        case libflo::opcode::XOR:
             fprintf(stderr, "Unimplemented operation: ");
             op->writeln_debug(stderr);
             abort();

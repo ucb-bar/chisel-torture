@@ -114,3 +114,10 @@ asm_not-32
 asm_not-64
 asm_not-65
 asm_not-127
+asm_xor-3
+asm_xor-5
+asm_xor-19
+asm_xor-32
+asm_xor-64
+asm_xor-65
+asm_xor-127
