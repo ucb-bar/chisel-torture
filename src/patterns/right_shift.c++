@@ -29,7 +29,6 @@ class right_shift: public libcgraph::pattern {
 private:
     std::shared_ptr<libcgraph::node> in;
     std::shared_ptr<libcgraph::node> out;
-    const size_t in_width;
     const size_t out_width;
     const size_t offset;
 
@@ -37,7 +36,6 @@ public:
     right_shift(size_t _in_width, size_t _out_width, size_t _offset)
         : in(std::make_shared<libcgraph::node>()),
           out(std::make_shared<libcgraph::node>()),
-          in_width(_in_width),
           out_width(_out_width),
           offset(_offset)
         {
