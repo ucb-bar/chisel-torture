@@ -90,8 +90,8 @@ void node::update(const mpz_class& value, ssize_t cycle)
 {
     if (cycle < _changed_cycle) {
         fprintf(stderr, "Last changed on %ld, now %ld\n",
-                _changed_cycle,
-                cycle
+                (long int)_changed_cycle,
+                (long int)cycle
             );
         abort();
     }

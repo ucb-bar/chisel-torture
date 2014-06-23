@@ -19,6 +19,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+#include <libflo/sizet_printf.h++>
 #include "format_chisel.h++"
 
 format_chisel::format_chisel(FILE *circuit, FILE *vcd)
@@ -55,13 +56,13 @@ format_chisel::~format_chisel(void)
      * emitted as a Bits because */
     fprintf(_circuit, "  class IO extends Bundle {\n");
     for (const auto& n: _inputs) {
-        fprintf(_circuit, "    val %s = Bits(INPUT, width=%lu);\n",
+        fprintf(_circuit, "    val %s = Bits(INPUT, width=" SIZET_FORMAT ");\n",
                 mangle_io_name(n).c_str(),
                 n->width()
             );
     }
     for (const auto& n: _outputs) {
-        fprintf(_circuit, "    val %s = Bits(OUTPUT, width=%lu);\n",
+        fprintf(_circuit, "    val %s = Bits(OUTPUT, width=" SIZET_FORMAT");\n",
                 mangle_io_name(n).c_str(),
                 n->width()
             );
@@ -76,7 +77,7 @@ format_chisel::~format_chisel(void)
         /* While input nodes don't _actually_ need to do anything, if
          * we don't do this then we'll need to prefix all input nodes
          * with "io.".  Essentially this is just name mangling. */
-        fprintf(_circuit, "  val %s = Bits(width = %lu);\n",
+        fprintf(_circuit, "  val %s = Bits(width = " SIZET_FORMAT ");\n",
                 in->short_chisel_name().c_str(),
                 in->width()
             );
@@ -95,7 +96,7 @@ format_chisel::~format_chisel(void)
             break;
 
         case libflo::opcode::REG:
-            fprintf(_circuit, "  val %s = Reg(init = Bits(0, width = %lu));\n",
+            fprintf(_circuit, "  val %s = Reg(init = Bits(0, width = " SIZET_FORMAT "));\n",
                     op->d()->short_chisel_name().c_str(),
                     op->d()->width()
                 );
@@ -113,7 +114,7 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::NOT:
         case libflo::opcode::RSH:
         case libflo::opcode::XOR:
-            fprintf(_circuit, "  val %s = Bits(width = %lu);\n",
+            fprintf(_circuit, "  val %s = Bits(width = " SIZET_FORMAT ");\n",
                     op->d()->short_chisel_name().c_str(),
                     op->d()->width()
                 );
