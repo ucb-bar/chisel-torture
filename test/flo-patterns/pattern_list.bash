@@ -93,6 +93,13 @@ asm_mux-32
 asm_mux-64
 asm_mux-65
 asm_mux-127
+asm_neg-3
+asm_neg-5
+asm_neg-19
+asm_neg-32
+asm_neg-64
+asm_neg-65
+asm_neg-127
 asm_neq-3
 asm_neq-5
 asm_neq-19

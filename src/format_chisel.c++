@@ -109,6 +109,7 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::LSH:
         case libflo::opcode::MOV:
         case libflo::opcode::MUX:
+        case libflo::opcode::NEG:
         case libflo::opcode::RSH:
             fprintf(_circuit, "  val %s = Bits(width = %lu);\n",
                     op->d()->short_chisel_name().c_str(),
@@ -133,7 +134,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::LIT:
         case libflo::opcode::MSK:
         case libflo::opcode::MUL:
-        case libflo::opcode::NEG:
         case libflo::opcode::NOP:
         case libflo::opcode::NOT:
         case libflo::opcode::OR:
@@ -257,6 +257,13 @@ format_chisel::~format_chisel(void)
                 );
             break;
 
+        case libflo::opcode::NEG:
+            fprintf(_circuit, "  %s := -%s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str()
+                );
+            break;
+
         case libflo::opcode::NEQ:
             fprintf(_circuit, "  %s := %s != %s;\n",
                     op->d()->short_chisel_name().c_str(),
@@ -289,7 +296,6 @@ format_chisel::~format_chisel(void)
         case libflo::opcode::MEM:
         case libflo::opcode::MSK:
         case libflo::opcode::MUL:
-        case libflo::opcode::NEG:
         case libflo::opcode::NOP:
         case libflo::opcode::NOT:
         case libflo::opcode::OR:
