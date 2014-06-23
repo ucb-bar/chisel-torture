@@ -21,6 +21,7 @@
 
 #include "format.h++"
 #include <libflo/flo.h++>
+#include <libflo/sizet_printf.h++>
 #include <unordered_map>
 #include <gmpxx.h>
 
@@ -141,7 +142,7 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles)
     fprintf(_vcd, "$scope module Torture $end\n");
 
     for (const auto& pair: short_names) {
-        fprintf(_vcd, "$var wire %lu %s %s $end\n",
+        fprintf(_vcd, "$var wire " SIZET_FORMAT " %s %s $end\n",
                 pair.first->width(),
                 pair.second.c_str(),
                 io_name(pair.first).c_str()
@@ -160,7 +161,7 @@ void format::vcd(const pattern_ptr& pattern, size_t cycles)
 
     /* Now go ahead and write the VCD body. */
     for (size_t cycle = 0; cycle < cycles; ++cycle) {
-        fprintf(_vcd, "#%lu\n", cycle);
+        fprintf(_vcd, "#" SIZET_FORMAT "\n", cycle);
 
         auto dump = [&](node_ptr n, size_t cycle) -> void
             {
