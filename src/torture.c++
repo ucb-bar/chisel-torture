@@ -22,6 +22,7 @@
 #include <libcgraph/pattern_merge.h++>
 #include <libcgraph/pattern_store.h++>
 #include <stdlib.h>
+#include "version.h"
 
 #ifdef FLO
 #include "format_flo.h++"
@@ -48,6 +49,12 @@ public:
                 if (strcmp(argv[i], "--seed") == 0) {
                     this->_seed = atoi(argv[i+1]);
                     i++;
+                } else if (strcmp(argv[i], "--version") == 0) {
+                    printf("%s %s\n", argv[0], PCONFIGURE_VERSION);
+                    exit(0);
+                } else {
+                    fprintf(stderr, "Unknown argument '%s'\n", argv[i]);
+                    abort();
                 }
             }
 
@@ -85,6 +92,8 @@ public:
 
 int main(int argc, const char **argv)
 {
+    auto args = torture_args(argc, argv);
+
 #if defined(FLO)
     FILE *cir = fopen("Torture.flo", "w");
 #elif defined(CHISEL)
@@ -99,8 +108,6 @@ int main(int argc, const char **argv)
 #else
 #error "Define an output format"
 #endif
-
-    auto args = torture_args(argc, argv);
 
     /* This special sort of pattern actually allows us to merge
      * together other patterns. */

@@ -21,6 +21,7 @@
 
 #include <libcgraph/pattern_store.h++>
 #include <string.h>
+#include "version.h"
 
 #ifdef FLO
 #include "format_flo.h++"
@@ -39,6 +40,11 @@ int main(int argc, const char **argv)
         fprintf(stderr, "  --show <pattern> <args>: Creates and prints\n");
         return 0;
     }
+
+    if ((argc == 2) && strcmp(argv[1], "--version") == 0) {
+        printf("%s %s\n", argv[0], PCONFIGURE_VERSION);
+        return 0;
+    }        
 
     if ((argc == 2) && (strcmp(argv[1], "--list") == 0)) {
         for (const auto& pattern: libcgraph::pattern_store::list())

@@ -24,6 +24,8 @@ LINKOPTS    += -lgmpxx
 # The test scripts use BASH
 LANGUAGES   += bash
 
+GENERATE    += version.h
+
 # A Chisel (and Flo) torture tester.  This mixes together different
 # Chisel patterns and produces a large Chisel graph.
 BINARIES    += chisel-torture
