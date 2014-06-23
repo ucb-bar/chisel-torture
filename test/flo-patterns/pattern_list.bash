@@ -107,3 +107,10 @@ asm_neq-32
 asm_neq-64
 asm_neq-65
 asm_neq-127
+asm_not-3
+asm_not-5
+asm_not-19
+asm_not-32
+asm_not-64
+asm_not-65
+asm_not-127
