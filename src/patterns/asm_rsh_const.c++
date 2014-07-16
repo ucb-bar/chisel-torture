@@ -25,7 +25,7 @@
 #include <libcgraph/reg.h++>
 #include <gmpxx.h>
 
-class right_shift: public libcgraph::pattern {
+class asm_rsh_const: public libcgraph::pattern {
 private:
     std::shared_ptr<libcgraph::node> in;
     std::shared_ptr<libcgraph::node> out;
@@ -33,7 +33,7 @@ private:
     const size_t offset;
 
 public:
-    right_shift(size_t _in_width, size_t _out_width, size_t _offset)
+    asm_rsh_const(size_t _in_width, size_t _out_width, size_t _offset)
         : in(std::make_shared<libcgraph::node>()),
           out(std::make_shared<libcgraph::node>()),
           out_width(_out_width),
@@ -56,7 +56,7 @@ public:
             _compute = {op};
 
 #ifdef DEBUG_PRINT_BIT_EXTRACT
-            fprintf(stderr, "right_shift %lu-%lu-%lu: ",
+            fprintf(stderr, "asm_rsh_const %lu-%lu-%lu: ",
                     _in_width, _out_width, _offset);
             op->writeln_debug(stderr);
 #endif
@@ -70,12 +70,12 @@ public:
         }
 };
 
-class right_shift_factory: public libcgraph::pattern_factory {
+class asm_rsh_const_factory: public libcgraph::pattern_factory {
     typedef std::shared_ptr<libcgraph::pattern> pattern_ptr;
 
     const std::string name(void) const
         {
-            return "right_shift";
+            return "asm_rsh_const";
         }
 
     const pattern_ptr create(const std::string& args) const
@@ -86,19 +86,21 @@ class right_shift_factory: public libcgraph::pattern_factory {
                 abort();
             }
 
-            return std::make_shared<right_shift>(iw, ow, o);
+            return std::make_shared<asm_rsh_const>(iw, ow, o);
         }
 
     std::vector<std::string> examples(void) const
         {
             return {"32-32-0", "32-32-1", "32-1-1",
-                    "128-32-0", "128-32-1", "128-32-61"};
+                    "128-32-0", "128-32-1", "128-32-61",
+                    "128-64-0", "128-64-1", "128-64-63", "128-64-64",
+                    "32-128-0", "32-128-1", "64-128-0", "64-128-63"};
         }
 };
 
 static void cons(void) __attribute__((constructor));
 void cons(void)
 {
-    auto factory = std::make_shared<right_shift_factory>();
+    auto factory = std::make_shared<asm_rsh_const_factory>();
     libcgraph::pattern_store::link(factory);
 }
