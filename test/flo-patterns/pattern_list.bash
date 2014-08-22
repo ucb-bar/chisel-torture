@@ -68,6 +68,14 @@ asm_lsh_const-32-1-1
 asm_lsh_const-128-32-0
 asm_lsh_const-128-32-1
 asm_lsh_const-128-32-61
+asm_lsh_const-128-64-0
+asm_lsh_const-128-64-1
+asm_lsh_const-128-64-63
+asm_lsh_const-128-64-64
+asm_lsh_const-32-128-0
+asm_lsh_const-32-128-1
+asm_lsh_const-64-128-0
+asm_lsh_const-64-128-63
 asm_lsh_var-32-32-4
 asm_lsh_var-32-32-5
 asm_lsh_var-128-32-7
