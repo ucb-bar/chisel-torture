@@ -121,8 +121,10 @@ format_chisel::~format_chisel(void)
             break;
 
         case libflo::opcode::EQ:
+        case libflo::opcode::GT:
         case libflo::opcode::GTE:
         case libflo::opcode::LT:
+        case libflo::opcode::LTE:
         case libflo::opcode::NEQ:
             fprintf(_circuit, "  val %s = Bits(width = 1);\n",
                     op->d()->short_chisel_name().c_str()
@@ -211,6 +213,14 @@ format_chisel::~format_chisel(void)
                 );
             break;
 
+        case libflo::opcode::GT:
+            fprintf(_circuit, "  %s := %s > %s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
         case libflo::opcode::GTE:
             fprintf(_circuit, "  %s := %s >= %s;\n",
                     op->d()->short_chisel_name().c_str(),
@@ -228,6 +238,14 @@ format_chisel::~format_chisel(void)
 
         case libflo::opcode::LT:
             fprintf(_circuit, "  %s := %s < %s;\n",
+                    op->d()->short_chisel_name().c_str(),
+                    op->s()->short_chisel_name().c_str(),
+                    op->t()->short_chisel_name().c_str()
+                );
+            break;
+
+        case libflo::opcode::LTE:
+            fprintf(_circuit, "  %s := %s <= %s;\n",
                     op->d()->short_chisel_name().c_str(),
                     op->s()->short_chisel_name().c_str(),
                     op->t()->short_chisel_name().c_str()
